@@ -21,11 +21,11 @@ def get_first_int(line: str, reverse: bool = False) -> int:
                 return value
 
 
-def p2(input: str) -> int:
-    total = 0
-    for line in input.split("\n"):
-        total += int(str(get_first_int(line)) + str(get_first_int(line, reverse=True)))
-    return total
+def part2(input: str) -> int:
+    return sum(
+        int(str(get_first_int(line)) + str(get_first_int(line, reverse=True)))
+        for line in input.split("\n")
+    )
 
 
-p1 = p2  # clobbered
+part1 = part2  # clobbered

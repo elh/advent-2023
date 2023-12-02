@@ -10,8 +10,8 @@ Refamiliarizing myself with Python.
 # Usage: python main.py <day> <part> <input_file>
 # Example: python main.py 25 2 input.txt
 #
-# Expects files named `solutions/day<day>.py` with functions `p1` and `p2` that
-# take the input as a string and return the answer.
+# Expects files named `solutions/day<day>.py` with functions `part1` and `part2`
+# that take the input as a string and return the answer.
 python main.py 2 2 input.txt
 ```
 

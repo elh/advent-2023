@@ -15,30 +15,25 @@ def parse_game(line: str) -> dict:
     return out
 
 
-def p1(input: str) -> bool:
+def part1(input: str) -> bool:
     cubes = {"red": 12, "green": 13, "blue": 14}
-    total = 0
-    for line in input.split("\n"):
-        game = parse_game(line)
-        valid = True
-        for round in game["rounds"]:
-            for color in round:
-                if round[color] > cubes[color]:
-                    valid = False
-                    break
-        if valid:
-            total += game["number"]
-    return total
+
+    def points(game: dict) -> int:
+        if all(
+            round[color] <= cubes[color] for round in game["rounds"] for color in round
+        ):
+            return game["number"]
+        return 0
+
+    return sum(map(lambda line: points(parse_game(line)), input.split("\n")))
 
 
-def p2(input: str) -> bool:
-    total = 0
-    for line in input.split("\n"):
-        game = parse_game(line)
+def part2(input: str) -> bool:
+    def points(game: dict) -> int:
         cubes = {"red": 0, "green": 0, "blue": 0}
         for round in game["rounds"]:
             for color in round:
-                if round[color] > cubes[color]:
-                    cubes[color] = round[color]
-        total += cubes["red"] * cubes["green"] * cubes["blue"]
-    return total
+                cubes[color] = max(cubes[color], round[color])
+        return cubes["red"] * cubes["green"] * cubes["blue"]
+
+    return sum(map(lambda line: points(parse_game(line)), input.split("\n")))
