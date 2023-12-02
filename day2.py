@@ -1,5 +1,3 @@
-import argparse
-
 def parse_game(line: str) -> dict:
     parts = line.split(": ")
     out = {
@@ -42,16 +40,3 @@ def p2(input: str) -> bool:
                     cubes[color] = round[color]
         total += cubes["red"] * cubes["green"] * cubes["blue"]
     return total
-
-def main(input: str) -> int:
-    # return p1(input)
-    return p2(input)
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("input_file")
-    args = parser.parse_args()
-
-    f = open(args.input_file, "r")
-    input = f.read().rstrip("\n")
-    print(main(input))
