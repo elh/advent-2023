@@ -19,6 +19,7 @@ def get_first_int(line: str, reverse: bool = False) -> int:
         for word, value in word_ints:
             if line[i:].startswith(word if not reverse else word[::-1]):
                 return value
+    raise ValueError("No int found")
 
 
 def part2(input: str) -> int:

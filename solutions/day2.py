@@ -1,18 +1,18 @@
-def parse_game(line: str) -> int:
+def parse_game(line: str) -> dict:
     parts = line.split(": ")
-    out = {
-        "number": int(parts[0].split(" ")[1]),
-        "rounds": [],
-    }
-
+    number = int(parts[0].split(" ")[1])
+    rounds = []
     for round in parts[1].split("; "):
         r = {}
         for color_t in round.split(", "):
             color_parts = color_t.split(" ")
             r[color_parts[1]] = int(color_parts[0])
-        out["rounds"].append(r)
+        rounds.append(r)
 
-    return out
+    return {
+        "number": number,
+        "rounds": rounds,
+    }
 
 
 def part1(input: str) -> int:
@@ -28,7 +28,7 @@ def part1(input: str) -> int:
     return sum([points(parse_game(line)) for line in input.split("\n")])
 
 
-def part2(input: str) -> bool:
+def part2(input: str) -> int:
     def points(game: dict) -> int:
         cubes: dict[str, int] = {"red": 0, "green": 0, "blue": 0}
         for round in game["rounds"]:
