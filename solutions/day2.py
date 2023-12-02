@@ -14,6 +14,7 @@ def parse_game(line: str) -> dict:
 
     return out
 
+
 def p1(input: str) -> bool:
     cubes = {"red": 12, "green": 13, "blue": 14}
     total = 0
@@ -28,6 +29,7 @@ def p1(input: str) -> bool:
         if valid:
             total += game["number"]
     return total
+
 
 def p2(input: str) -> bool:
     total = 0
