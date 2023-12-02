@@ -1,7 +1,7 @@
 import argparse
 
 
-# Usage: python input.py <day>
+# Usage: python link.py <day>
 # Utility to print the input URL for terminal Cmd+click convenience.
 def main():
     year = 2023

@@ -11,22 +11,30 @@ word_ints = [
 ]
 
 
-def get_first_int(line: str, reverse: bool = False) -> int:
+def get_first_int(line: str, as_word: bool = False, reverse: bool = False) -> int:
     line = line[::-1] if reverse else line
     for i in range(len(line)):
         if line[i].isdigit():
             return int(line[i])
-        for word, value in word_ints:
-            if line[i:].startswith(word if not reverse else word[::-1]):
-                return value
+        if as_word:
+            for word, value in word_ints:
+                if line[i:].startswith(word if not reverse else word[::-1]):
+                    return value
     raise ValueError("No int found")
 
 
-def part2(input: str) -> int:
+def part1(input: str) -> int:
     return sum(
         int(str(get_first_int(line)) + str(get_first_int(line, reverse=True)))
         for line in input.split("\n")
     )
 
 
-part1 = part2  # clobbered
+def part2(input: str) -> int:
+    return sum(
+        int(
+            str(get_first_int(line, as_word=True))
+            + str(get_first_int(line, as_word=True, reverse=True))
+        )
+        for line in input.split("\n")
+    )
