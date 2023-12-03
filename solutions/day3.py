@@ -15,8 +15,7 @@ def neighbors(i, j):
 def adjacent_to_symbol(number_str, start_idx, symbols):
     locs = set()
     for i in range(len(number_str)):
-        for neighbor in neighbors(start_idx[0], start_idx[1] + i):
-            locs.add(neighbor)
+        locs |= {n for n in neighbors(start_idx[0], start_idx[1] + i)}
     return locs & symbols
 
 
@@ -78,12 +77,9 @@ def part2(input: str) -> int:
 
     total = 0
     for gear in gears:
-        neighbor_numbers = set()
-        for n in neighbors(*gear):
-            if n in numbers:
-                neighbor_numbers.add(numbers[n])
+        neighbor_numbers = {numbers[n] for n in neighbors(*gear) if n in numbers}
         if len(neighbor_numbers) == 2:
-            l = list(neighbor_numbers)
-            total += l[0][0] * l[1][0]
+            (num1, _), (num2, _) = neighbor_numbers
+            total += num1 * num2
 
     return total

@@ -32,13 +32,20 @@ def main():
                 fn = getattr(module, "part" + str(part))
                 input_file = "inputs/" + str(day) + ".txt"
                 input = open(input_file, "r").read().rstrip("\n")
-                start_t = time.time()
-                got = fn(input)
-                durs.append(rounded(time.time() - start_t))
             except Exception:
                 print("-", end=" ")
                 counts["-"] += 1
                 durs.append(None)
+                continue
+
+            try:
+                start_t = time.time()
+                got = fn(input)
+                durs.append(rounded(time.time() - start_t))
+            except Exception:
+                print(RED + "x" + ENDC, end=" ")
+                counts["x"] += 1
+                durs.append(rounded(time.time() - start_t))
                 continue
 
             try:

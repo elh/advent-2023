@@ -9,3 +9,6 @@ lint:
 .PHONY: pretty
 pretty:
 	@black .
+
+.PHONY: good
+good: lint pretty
