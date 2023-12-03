@@ -1,0 +1,2 @@
+# allow "E741 Ambiguous variable name". I like to do this to my own taste
+ignore = ["E741"]
