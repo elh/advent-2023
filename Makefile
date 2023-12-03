@@ -1,3 +1,6 @@
+all:
+	@python all.py
+
 .PHONY: lint
 lint:
 	@mypy .
