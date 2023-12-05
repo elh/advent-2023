@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/8-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/10-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -8,11 +8,11 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 ## Progress
 
 ```
-Day 1:	✓ ✓ 	 [0.0011, 0.0072]
-Day 2:	✓ ✓ 	 [0.0004, 0.0005]
-Day 3:	✓ ✓ 	 [0.005, 0.0024]
-Day 4:	✓ ✓ 	 [0.001, 0.001]
-Day 5:	- - 	 [None, None]
+Day 1:	✓ ✓ 	 [0.001, 0.0062]
+Day 2:	✓ ✓ 	 [0.0004, 0.0004]
+Day 3:	✓ ✓ 	 [0.0044, 0.0024]
+Day 4:	✓ ✓ 	 [0.0009, 0.0009]
+Day 5:	✓ ✓ 	 [0.0002, 5.4009]
 Day 6:	- - 	 [None, None]
 Day 7:	- - 	 [None, None]
 Day 8:	- - 	 [None, None]
@@ -34,8 +34,8 @@ Day 23:	- - 	 [None, None]
 Day 24:	- - 	 [None, None]
 Day 25:	- - 	 [None, None]
 
-Results: 8 ✓, 0 x, 0 ?, 42 -
-Total time (s): 0.0186
+Results: 10 ✓, 0 x, 0 ?, 40 -
+Total time (s): 5.4177
 ```
 
 ✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented
