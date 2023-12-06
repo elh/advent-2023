@@ -1,3 +1,4 @@
+import argparse
 import importlib
 import json
 import time
@@ -11,22 +12,47 @@ def rounded(v: float) -> float:
     return int(v * 10000) / 10000
 
 
-# Usage: python all.py
+def parse_skips(skip: str) -> set:
+    skips = set()
+    for part in skip.split(","):
+        day, part = part.split(".")
+        skips.add((int(day), int(part)))
+    return skips
+
+
+# Usage: python all.py [--skip <skip>]
 #
 # Runs all solutions in the stype of `main.py` and checks with answers present
-# in `answers.json`.
+# in `answers.json`. --skip is an optional csv of parts to skip. parts are
+# represented as <day>.<part>, e.g. 1.1, 25.2
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--skip",
+        help="csv of parts to skip. parts are represented as <day>.<part>, e.g. 1.1, 25.2",
+    )
+    args = parser.parse_args()
+
+    skips = parse_skips(args.skip) if args.skip else set()
+
     total_dur = 0
     counts = {
         "✓": 0,  # Correct
         "x": 0,  # Incorrect
         "?": 0,  # No answer provided
         "-": 0,  # Unimplemented
+        "s": 0,  # Skipped
     }
     for day in range(1, 26):
         print("Day " + str(day) + ":\t", end="")
         durs = []
         for part in range(1, 3):
+            if (day, part) in skips:
+                print("s", end=" ")
+                counts["s"] += 1
+                durs.append(None)
+                continue
+
             try:
                 module = importlib.import_module("solutions.day" + str(day))
                 fn = getattr(module, "part" + str(part))

@@ -1,5 +1,5 @@
 all:
-	@python all.py
+	@python all.py --skip=$(SKIP)
 
 .PHONY: lint
 lint:

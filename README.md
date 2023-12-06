@@ -38,7 +38,7 @@ Results: 12 ✓, 0 x, 0 ?, 38 -
 Total time (s): 5.4363
 ```
 
-✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented
+✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented, s = Skipped
 
 ## Usage
 
@@ -50,13 +50,14 @@ Total time (s): 5.4363
 # that take the input as a string and return the answer.
 python main.py 2 2 input.txt
 
-# Usage: python all.py
+# Usage: python all.py [--skip <skip>]
 #
 # Runs all solutions in the stype of `main.py` and checks with answers present
-# in `answers.json`. Expects inputs to be named `inputs/<day>.txt`.
+# in `answers.json`. --skip is an optional csv of parts to skip. parts are
+# represented as <day>.<part>, e.g. 1.1, 25.2
 python all.py
 
-# or just run `make`
+# or just run `make`. `SKIP=5.2 make` to skip specified parts
 ```
 
 ## Development
