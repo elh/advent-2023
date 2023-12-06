@@ -31,4 +31,35 @@ def part1(input: str) -> int:
 
 
 def part2(input: str) -> int:
-    return 0
+    def combined_int(l: list[int]) -> int:
+        return int("".join(map(str, l)))
+
+    races = parse_input(input)
+    time = combined_int([r[0] for r in races])
+    dist = combined_int([r[1] for r in races])
+
+    # binary search for the smallest the time between 0 and time that will give us the distance(t) > dist
+    l = 0
+    r = time
+    while l < r:
+        m = (l + r) // 2
+        if distance(m, time) > dist:
+            r = m
+        else:
+            l = m + 1
+    lowest = l
+
+    # binary search for the largest the time between 0 and time that will give us the distance(t) > dist
+    l = 0
+    r = time
+    while l < r:
+        m = (l + r) // 2
+        if distance(m, time) > dist:
+            l = m + 1
+        else:
+            r = m
+    highest = r
+
+    print(lowest, highest)
+
+    return highest - lowest
