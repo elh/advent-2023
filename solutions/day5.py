@@ -10,7 +10,7 @@ def parse_input(input: str) -> dict:
     ms = []
     for block in input.split("\n\n")[1:]:
         m = [[int(v) for v in line.split()] for line in block.split("\n")[1:]]
-        # optimizations for part 2: sorted by destination range start. enabled binary search
+        # for part 2: sorted by destination range start. enable binary search
         m.sort(key=lambda x: x[0])
         ms.append(m)
 
