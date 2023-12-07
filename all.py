@@ -29,7 +29,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--skip",
-        help="csv of parts to skip. parts are represented as <day>.<part>, e.g. 1.1, 25.2",
+        help="csv of parts to skip. parts are represented as <day>.<part>, e.g. 1.1",
     )
     args = parser.parse_args()
 
@@ -54,9 +54,9 @@ def main():
                 continue
 
             try:
-                module = importlib.import_module("solutions.day" + str(day))
+                module = importlib.import_module("solutions.day" + str(day).zfill(2))
                 fn = getattr(module, "part" + str(part))
-                input_file = "inputs/" + str(day) + ".txt"
+                input_file = "inputs/" + str(day).zfill(2) + ".txt"
                 input = open(input_file, "r").read().rstrip("\n")
             except Exception:
                 print("-", end=" ")

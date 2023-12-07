@@ -47,7 +47,8 @@ Total time (s): 5.4363
 # Example: python main.py 25 2 input.txt
 #
 # Expects files named `solutions/day<day>.py` with functions `part1` and `part2`
-# that take the input as a string and return the answer.
+# that take the input as a string and return the answer. The file name <day> is
+# 0-padded to 2 digits.
 python main.py 2 2 input.txt
 
 # Usage: python all.py [--skip <skip>]
