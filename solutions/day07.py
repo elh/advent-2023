@@ -1,4 +1,5 @@
 import functools
+from collections.abc import Callable
 
 
 def parse_input(input: str, with_jokers: bool = False) -> list:
@@ -13,55 +14,28 @@ def parse_input(input: str, with_jokers: bool = False) -> list:
     return hands
 
 
-def score(hand: list) -> int:
-    d = {}
+def score(hand: list, with_jokers: bool = False) -> int:
+    d: dict[int, int] = {}  # card to count
     for card in hand:
         if card in d:
             d[card] += 1
         else:
             d[card] = 1
 
+    # corner case: check this first for the corner case of all jokers
     if len(d) == 1:
-        return 7  # highest
-    elif len(d) == 2:
-        if 4 in d.values():
-            return 6
-        else:
-            return 5
-    elif len(d) == 3:
-        if 3 in d.values():
-            return 4
-        else:
-            return 3
-    elif len(d) == 4:
-        return 2
-    else:
-        return 1
+        return 7  # highest rank
 
-
-def score_with_jokers(hand: list) -> int:
-    d = {}
-    for card in hand:
-        if card in d:
-            d[card] += 1
-        else:
-            d[card] = 1
-
-    # edge case of all jokers
-    if len(d) == 1:
-        return 7  # highest
-
-    # pre-process the jokers!
-    if 1 in d:
+    # pre-process the jokers! just treat them as the highest card
+    if with_jokers and 1 in d:
         num_jokers = d[1]
         del d[1]
 
-        # get the key with he most values
-        max_key = max(d, key=d.get)
+        max_key = max(d, key=lambda k: d[k])
         d[max_key] += num_jokers
 
     if len(d) == 1:
-        return 7  # highest
+        return 7  # highest rank
     elif len(d) == 2:
         if 4 in d.values():
             return 6
@@ -78,47 +52,31 @@ def score_with_jokers(hand: list) -> int:
         return 1
 
 
-def is_h1_tie_breaker(h1: list, h2: list) -> bool:
-    for i, card in enumerate(h1):
-        if card > h2[i]:
-            return True
-        elif card < h2[i]:
-            return False
+def compare_hands_fn(with_jokers: bool = False) -> Callable:
+    def fn(t1: tuple, t2: tuple):
+        h1 = t1[0]
+        h2 = t2[0]
 
-
-def compare_hands(t1: tuple, t2: tuple) -> int:
-    h1 = t1[0]
-    h2 = t2[0]
-
-    if score(h1) > score(h2):
-        return 1
-    elif score(h1) < score(h2):
-        return -1
-    else:
-        if is_h1_tie_breaker(h1, h2):
+        if score(h1, with_jokers) > score(h2, with_jokers):
             return 1
-        else:
+        elif score(h1, with_jokers) < score(h2, with_jokers):
             return -1
-
-
-def compare_hands_with_jokers(t1: tuple, t2: tuple) -> int:
-    h1 = t1[0]
-    h2 = t2[0]
-
-    if score_with_jokers(h1) > score_with_jokers(h2):
-        return 1
-    elif score_with_jokers(h1) < score_with_jokers(h2):
-        return -1
-    else:
-        if is_h1_tie_breaker(h1, h2):
-            return 1
         else:
-            return -1
+            # tie breaker
+            for i, card in enumerate(h1):
+                if card > h2[i]:
+                    return 1
+                elif card < h2[i]:
+                    return -1
+
+            raise Exception("tie breaker failed")
+
+    return fn
 
 
 def part1(input: str) -> int:
     data = parse_input(input)
-    sorted_data = sorted(data, key=functools.cmp_to_key(compare_hands))
+    sorted_data = sorted(data, key=functools.cmp_to_key(compare_hands_fn()))
 
     score = 0
     for i, hand in enumerate(sorted_data):
@@ -129,7 +87,9 @@ def part1(input: str) -> int:
 
 def part2(input: str) -> int:
     data = parse_input(input, with_jokers=True)
-    sorted_data = sorted(data, key=functools.cmp_to_key(compare_hands_with_jokers))
+    sorted_data = sorted(
+        data, key=functools.cmp_to_key(compare_hands_fn(with_jokers=True))
+    )
 
     score = 0
     for i, hand in enumerate(sorted_data):
