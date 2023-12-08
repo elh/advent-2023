@@ -15,9 +15,12 @@ def parse_input(input: str) -> dict:
         ms.append(m)
 
     initial_ranges = []
+    boundary_values = []
     i = 0
     while i < len(initial_values):
         initial_ranges.append((initial_values[i], initial_values[i + 1]))
+        boundary_values.append(initial_values[i])
+        boundary_values.append(initial_values[i] + initial_values[i + 1])
         i += 2
     initial_ranges.sort(key=lambda x: x[0])
 
@@ -27,6 +30,7 @@ def parse_input(input: str) -> dict:
         # optimizations for part 2
         "maps_reversed": ms[::-1],
         "initial_ranges": initial_ranges,
+        "boundary_values": boundary_values,  # when inputs are ranges in part 2
     }
 
 
@@ -79,20 +83,41 @@ def part1(input: str) -> int:
     return min(vs)
 
 
-# brute force by reversing them through the maps starting from 0 until we find
-# a valid initial value
+# trace the initial ranges through the maps tracking all possible boundary values
+#
+# NOTE: i am considering a lot of values in later maps that actually are not
+# reachable but the reduction in search space is already huge
 def part2(input: str) -> int:
     parsed = parse_input(input)
 
-    n = 0
-    while True:
-        v = get_reversed_value(n, parsed)
-        if is_valid_init_value(v, parsed):
-            return n
+    curs = parsed["boundary_values"]
+    for m in parsed["maps"]:
+        # add all possible boundary values given the map source ranges
+        for dest_start, source_start, range_len in m:
+            if source_start not in curs:
+                curs.append(source_start)
+            if source_start + range_len not in curs:
+                curs.append(source_start + range_len)
 
-        # next
-        n += 1
-        # if n % 100000 == 0:
-        #     print("n =", n)
-        if n > 1000000000:
-            raise Exception("too many iterations")
+        # then translate them to the map destination ranges
+        new_curs = []
+        for cur in curs:
+            was_mapped = False
+            for dest_start, source_start, range_len in m:
+                if cur >= source_start and cur < source_start + range_len:
+                    new_curs.append(dest_start + (cur - source_start))
+                    was_mapped = True
+                    break
+            if not was_mapped:
+                new_curs.append(cur)
+
+        curs = new_curs
+
+    # sort the final values and return the first valid initial value
+    curs.sort()
+    for cur in curs:
+        v = get_reversed_value(cur, parsed)
+        if is_valid_init_value(v, parsed):
+            return cur
+
+    raise Exception("no valid initial value found")

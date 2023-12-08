@@ -1,5 +1,6 @@
 inputs/
 answers.json
+ignore/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

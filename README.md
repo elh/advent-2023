@@ -8,14 +8,14 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 ## Progress
 
 ```
-Day 1:	✓ ✓ 	 [0.0011, 0.0065]
+Day 1:	✓ ✓ 	 [0.001, 0.0065]
 Day 2:	✓ ✓ 	 [0.0004, 0.0005]
-Day 3:	✓ ✓ 	 [0.0046, 0.0025]
-Day 4:	✓ ✓ 	 [0.0009, 0.0009]
-Day 5:	✓ ✓ 	 [0.0002, 5.4019]
+Day 3:	✓ ✓ 	 [0.0045, 0.0024]
+Day 4:	✓ ✓ 	 [0.0008, 0.0009]
+Day 5:	✓ ✓ 	 [0.0002, 0.001]
 Day 6:	✓ ✓ 	 [0.0, 0.0]
-Day 7:	✓ ✓ 	 [0.0119, 0.0163]
-Day 8:	✓ ✓ 	 [0.0023, 0.0143]
+Day 7:	✓ ✓ 	 [0.0129, 0.0168]
+Day 8:	✓ ✓ 	 [0.0024, 0.0144]
 Day 9:	- - 	 [None, None]
 Day 10:	- - 	 [None, None]
 Day 11:	- - 	 [None, None]
@@ -35,7 +35,7 @@ Day 24:	- - 	 [None, None]
 Day 25:	- - 	 [None, None]
 
 Results: 16 ✓, 0 x, 0 ?, 34 -, 0 s
-Total time (s): 5.4643
+Total time (s): 0.0646
 ```
 
 ✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented, s = Skipped
