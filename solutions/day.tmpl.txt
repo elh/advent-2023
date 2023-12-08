@@ -1,6 +1,17 @@
+# TODO: add return type when known
+def parse_input(input: str):
+    return input
+
+
 def part1(input: str) -> int:
+    data = parse_input(input)
+    print(data)
+
     return 0
 
 
 def part2(input: str) -> int:
+    data = parse_input(input)
+    print(data)
+
     return 0
