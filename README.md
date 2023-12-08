@@ -7,6 +7,7 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 ## Progress
 
+`make` result:
 ```
 Day 1:	✓ ✓ 	 [0.001, 0.0065]
 Day 2:	✓ ✓ 	 [0.0004, 0.0005]
@@ -42,6 +43,8 @@ Total time (s): 0.0646
 
 ## Usage
 
+I have a nice harness that dynamically imports solution files and functions to run them. We can check all of them against saved answers to prevent regressions.
+
 ```bash
 # Usage: python main.py <day> <part> <input_file>
 # Example: python main.py 25 2 input.txt
@@ -66,4 +69,27 @@ python all.py
 ```bash
 make lint       # mypy, ruff
 make pretty     # black
+
+make good       # runs lint, pretty
 ```
+
+## Log
+
+* 12/1
+  * Wasn't sure if I would do it this year but I can't resist challenging friends to do it. Starting a private leaderboard with a bounty. I don't think I will have as much time as I did last year learning Clojure so opting for Python. 🐍
+  * Day 1: Pleased with this idea of reversing the entire text and the words I am searching for to generalize the search.
+  * Implemented a common main.py that can dynamically import solutions functions via importlib.
+* 12/2
+  * Played around with some Python tooling: ruff, black, mypy.
+  * Added a all.py script.
+* 12/3
+  * Day 4: Nice clean single-pass iterative solution.
+* 12/4
+  * Day 5: Pleased with how fast I solved part 2 by coming up with a well bounded brute force solution. Performance is quite poor though taking 5s and I get a little confused thinking through the ranges. Moved on.
+* 12/5
+  * Day 6: Heh... I solved it quickly with a janky binary search before looking up the quadratic equation.
+* 12/6
+  * Day 7: Finished 396th! This was the first night that I was at my computer at 9pm and prioritized speed so I'm quite pleased with this. My approach treating hands as a dict of card -> count was amenable to handling jokers. 🃏
+* 12/7
+  * Day 8: I was surprised that this math was needed as early as day 8 so I waited for my naive solution to complete a little too long.
+  * This was another night where I was free at 9pm and finished 1021st. Won't be able to care about that anymore as I'm about to be traveling for the next week. 🇮🇳
