@@ -17,11 +17,25 @@ def next_value(line: list[int]) -> int:
         seqs.append(step(seqs[-1]))
 
     # sum up the pyramid to the predicted next value
-    add_int = seqs[-1][0]
+    v = seqs[-1][0]
     for seq in reversed(seqs[:-1]):
-        add_int += seq[-1]
+        v += seq[-1]
 
-    return add_int
+    return v
+
+
+def prev_value(line: list[int]) -> int:
+    # build the pyramid
+    seqs = [line]
+    while len(set(seqs[-1])) != 1:
+        seqs.append(step(seqs[-1]))
+
+    # sum up the pyramid to the predicted previous value
+    v = seqs[-1][0]
+    for seq in reversed(seqs[:-1]):
+        v = seq[0] - v
+
+    return v
 
 
 def part1(input: str) -> int:
@@ -31,6 +45,4 @@ def part1(input: str) -> int:
 
 def part2(input: str) -> int:
     data = parse_input(input)
-    print(data)
-
-    return 0
+    return sum([prev_value(line) for line in data])
