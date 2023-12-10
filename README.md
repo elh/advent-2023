@@ -91,8 +91,7 @@ make good       # runs lint, pretty
 * 12/6
   * Day 7: Finished 396th! This was the first night that I was at my computer at 9pm and prioritized speed so I'm quite pleased with this. My approach treating hands as a dict of card -> count was amenable to handling jokers 🃏.
 * 12/7
-  * Day 8: I was surprised that this math was needed as early as day 8 so I waited for my naive solution to complete a little too long.
-  * This was another night where I was free at 9pm and finished 1021st. Won't be able to care about that anymore as I'm about to be traveling for the next week 🇬🇧🇮🇳.
-  * At this point I am leading 11 coworkers in my private leaderboard. I'm having the most fun chatting with the non-engineers doing it for the first time - 2 of them occupying 2nd and 3rd place.
+  * Day 8: I was surprised that this math was needed as early as day 8 so I waited for my naive solution to complete a little too long. Finished 1021st. Won't be able to care about that anymore as I'm about to be traveling for the next week 🇬🇧🇮🇳.
+  * At this point, I am leading 11 coworkers in my private leaderboard. I'm having the most fun chatting with the non-engineers doing it for the first time - 2 of them occupying 2nd and 3rd place.
 * 12/9
   * Day 9: Done before bed in London after a 10 hour flight next to toddlers and 14K steps around xmas markets 🎅...
