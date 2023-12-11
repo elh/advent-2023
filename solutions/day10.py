@@ -36,7 +36,9 @@ def is_connected_to_start(
     return False
 
 
-def walk(grid: list[list[str]]) -> set[tuple[int, int]]:
+# returns 1) a list of all locs in the cycle 2) an updated grid for p2
+# updated grid turns all unconnected pipes to "." and replaces "S" with a pipe
+def walk(grid: list[list[str]]) -> tuple[set[tuple[int, int]], list[list[str]]]:
     # find "S"
     start_loc = None
     for y, line in enumerate(grid):
@@ -78,13 +80,20 @@ def walk(grid: list[list[str]]) -> set[tuple[int, int]]:
             if candidate_loc == prior_loc:
                 continue
             if grid[candidate_loc[0]][candidate_loc[1]] == "S":
-                return visited
+                break
             if candidate_loc in visited:
                 continue
             visited.add(candidate_loc)
             fringe.append((candidate_loc, loc))
 
-    raise ValueError("dead end")
+    # use walk locations to return an updated grid
+    updated_grid = [row.copy() for row in grid]
+    for i in range(len(updated_grid)):
+        for j in range(len(updated_grid[0])):
+            if (i, j) not in visited:
+                updated_grid[i][j] = "."
+
+    return visited, updated_grid
 
 
 def translate(loc: tuple[int, int], dir: tuple[int, int]) -> tuple[int, int]:
@@ -96,7 +105,6 @@ def is_enclosed(loc: tuple[int, int], grid: list[list[str]]) -> bool:
         wall_count = 0
         prev_connection = None  # to handle 90 degree corners. last side connected
 
-        # TODO: generalize this with rotations?
         cur_loc = translate(loc, dir)
         while (
             cur_loc[0] >= 0
@@ -140,7 +148,7 @@ def is_enclosed(loc: tuple[int, int], grid: list[list[str]]) -> bool:
 
 def part1(input: str) -> int:
     data = parse_input(input)
-    walk_locs = walk(data)
+    walk_locs, _ = walk(data)
     return len(walk_locs) // 2
 
 
@@ -148,17 +156,15 @@ def part1(input: str) -> int:
 def part2(input: str) -> int:
     grid = parse_input(input)
     # pprint.pprint(grid)
-    walk_locs = walk(grid)
-
-    # TODO: turn unconnected pipes into "."
+    walk_locs, updated_grid = walk(grid)
 
     enclosed = []
-    for i, row in enumerate(grid):
+    for i, row in enumerate(updated_grid):
         for j, char in enumerate(row):
             if char != ".":
                 continue
             loc = (i, j)
-            if loc not in walk_locs and is_enclosed(loc, grid):
+            if loc not in walk_locs and is_enclosed(loc, updated_grid):
                 enclosed.append(loc)
 
     return len(enclosed)
