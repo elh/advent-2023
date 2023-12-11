@@ -92,6 +92,5 @@ def part1(input: str) -> int:
 
 def part2(input: str) -> int:
     data = parse_input(input)
-    print(data)
 
     return 0
