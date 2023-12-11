@@ -81,9 +81,9 @@ make good       # runs lint, pretty
   * Implemented a common main.py that can dynamically import solutions functions via importlib.
 * 12/2
   * Played around with some Python tooling: ruff, black, mypy.
-  * Added a all.py script.
+  * Added an all.py script.
 * 12/3
-  * Day 4: Nice clean single-pass iterative solution.
+  * Day 4: Clean single-pass iterative solution.
 * 12/4
   * Day 5: Pleased with how fast I solved part 2 by coming up with a well bounded brute force solution. Performance is quite poor though taking 5s and I get a little confused thinking through the ranges. Done shortly after takeoff from Taiwan back to SF 🌉.
 * 12/5

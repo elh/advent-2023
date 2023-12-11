@@ -1,3 +1,6 @@
+import pprint
+
+
 def parse_input(input: str) -> list[list[str]]:
     return [[char for char in line] for line in input.split("\n")]
 
@@ -10,7 +13,6 @@ pipe_connecting_dirs = {
     "J": [(-1, 0), (0, -1)],
     "7": [(1, 0), (0, -1)],
     "F": [(1, 0), (0, 1)],
-    # "." is a nop
 }
 
 dirs = [
@@ -22,15 +24,14 @@ dirs = [
 
 
 # NOTE: cannot use this to find "S" during a walk. "S" is a special case
-# TODO: probably should just remove this
-def is_neighbor_connected(
-    cur_loc: tuple[int, int], neighbor_loc: tuple[int, int], grid: list[list[str]]
+def is_connected_to_start(
+    start_loc: tuple[int, int], neighbor_loc: tuple[int, int], grid: list[list[str]]
 ) -> bool:
     candidate = grid[neighbor_loc[0]][neighbor_loc[1]]
     if candidate not in pipe_connecting_dirs:
         return False
     for delta in pipe_connecting_dirs[candidate]:
-        if (neighbor_loc[0] + delta[0], neighbor_loc[1] + delta[1]) == cur_loc:
+        if (neighbor_loc[0] + delta[0], neighbor_loc[1] + delta[1]) == start_loc:
             return True
     return False
 
@@ -52,7 +53,7 @@ def part1(input: str) -> int:
     first_loc = None
     for dir in dirs:
         candidate_loc = (start_loc[0] + dir[0], start_loc[1] + dir[1])
-        if is_neighbor_connected(start_loc, candidate_loc, data):
+        if is_connected_to_start(start_loc, candidate_loc, data):
             first_loc = candidate_loc
             break
     if first_loc is None:
@@ -92,6 +93,6 @@ def part1(input: str) -> int:
 
 def part2(input: str) -> int:
     data = parse_input(input)
-    _ = data
+    pprint.pprint(data)
 
     return 0
