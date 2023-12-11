@@ -42,10 +42,8 @@ def all_distance_pairs(grid: list[list[str]]) -> list[int]:
             if char == "#":
                 locs.append((y, x))
     dists = []
-    for loc1 in locs:
-        for loc2 in locs:
-            if loc1 == loc2:
-                continue
+    for i, loc1 in enumerate(locs):
+        for loc2 in locs[i + 1 :]:
             dists.append(abs(loc1[0] - loc2[0]) + abs(loc1[1] - loc2[1]))
 
     return dists
@@ -62,8 +60,8 @@ def part1(input: str) -> int:
     expanded = expand(data)
     # print_grid(expanded)
 
-    vs = all_distance_pairs(expanded)
-    return sum(vs) // 2
+    dists = all_distance_pairs(expanded)
+    return sum(dists)
 
 
 ################################################################################
@@ -111,14 +109,13 @@ def all_distance_pairs_with_emptiness(
             if char == "#":
                 locs.append((y, x))
     dists = []
-    for loc1 in locs:
-        for loc2 in locs:
-            if loc1 == loc2:
-                continue
-
+    for i, loc1 in enumerate(locs):
+        for loc2 in locs[i + 1 :]:
             dist = abs(loc1[0] - loc2[0]) + abs(loc1[1] - loc2[1])
 
             # add emptiness
+            # NOTE: perf could be improved with more efficient iteration
+            #       perhaps embed the emptiness values in the grid
             for row_idx in empty_rows:
                 if (row_idx > loc1[0] and row_idx < loc2[0]) or (
                     row_idx > loc2[0] and row_idx < loc1[0]
@@ -139,4 +136,4 @@ def part2(input: str) -> int:
     data = parse_input(input)
     e = emptiness(data)
     dists = all_distance_pairs_with_emptiness(data, e)
-    return sum(dists) // 2
+    return sum(dists)
