@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/18-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/21-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,17 +9,17 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	✓ ✓ 	 [0.001, 0.0066]
-Day 2:	✓ ✓ 	 [0.0004, 0.0005]
-Day 3:	✓ ✓ 	 [0.0046, 0.0024]
-Day 4:	✓ ✓ 	 [0.0009, 0.0009]
-Day 5:	✓ ✓ 	 [0.0002, 0.001]
+Day 1:	✓ ✓ 	 [0.0009, 0.0055]
+Day 2:	✓ ✓ 	 [0.0003, 0.0004]
+Day 3:	✓ ✓ 	 [0.0039, 0.0022]
+Day 4:	✓ ✓ 	 [0.0008, 0.0009]
+Day 5:	✓ ✓ 	 [0.0001, 0.0009]
 Day 6:	✓ ✓ 	 [0.0, 0.0]
-Day 7:	✓ ✓ 	 [0.0134, 0.0181]
-Day 8:	✓ ✓ 	 [0.0024, 0.0144]
+Day 7:	✓ ✓ 	 [0.0127, 0.0175]
+Day 8:	✓ ✓ 	 [0.0024, 0.0152]
 Day 9:	✓ ✓ 	 [0.0024, 0.0023]
-Day 10:	- - 	 [None, None]
-Day 11:	- - 	 [None, None]
+Day 10:	✓ ? 	 [0.0085, 0.0002]
+Day 11:	✓ ✓ 	 [0.0147, 0.1089]
 Day 12:	- - 	 [None, None]
 Day 13:	- - 	 [None, None]
 Day 14:	- - 	 [None, None]
@@ -35,8 +35,8 @@ Day 23:	- - 	 [None, None]
 Day 24:	- - 	 [None, None]
 Day 25:	- - 	 [None, None]
 
-Results: 18 ✓, 0 x, 0 ?, 32 -, 0 s
-Total time (s): 0.0714
+Results: 21 ✓, 0 x, 1 ?, 28 -, 0 s
+Total time (s): 0.2007
 ```
 
 ✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented, s = Skipped
@@ -91,7 +91,11 @@ make good       # runs lint, pretty
 * 12/6
   * Day 7: Finished 396th! This was the first night that I was at my computer at 9pm and prioritized speed so I'm quite pleased with this. My approach treating hands as a dict of card -> count was amenable to handling jokers 🃏.
 * 12/7
-  * Day 8: I was surprised that this math was needed as early as day 8 so I waited for my naive solution to complete a little too long. Finished 1021st. Won't be able to care about that anymore as I'm about to be traveling for the next week 🇬🇧🇮🇳.
-  * At this point, I am leading 11 coworkers in my private leaderboard. I'm having the most fun chatting with the non-engineers doing it for the first time - 2 of them occupying 2nd and 3rd place.
+  * Day 8: I was surprised that this math was needed as early as day 8 so I waited for my naive solution to complete a little too long.
+  * At this point heading into travel next week 🇬🇧🇮🇳, I am leading 11 coworkers in my private leaderboard. I'm having a ton of fun chatting with the non-engineers doing it for the first time - 2 of them occupying 2nd and 3rd place.
 * 12/9
   * Day 9: Done before bed in London after a 10 hour flight next to toddlers and 14K steps around xmas markets 🎅...
+* 12/10
+  * Day 10: Part 2 is the first puzzle to defeat me on the initial sitting at 6am jet lagged in the citizenM Bankside lobby. I'm familiar with winding numbers but have difficulty adapting the idea to the ascii grid after horribly fumbling the set up in Part 1.
+* 12/11
+  * Day 11: Part 1 completed in a taxi on the way to Heathrow airport.

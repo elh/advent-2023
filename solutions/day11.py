@@ -26,7 +26,6 @@ def expand(grid: list[list[str]]) -> list[list[str]]:
             if char == "#":
                 idx_to_expand[x] = False
                 break
-    # print(idx_to_expand)
 
     for row in expanded_grid:
         for i in reversed(range(width)):
@@ -34,11 +33,6 @@ def expand(grid: list[list[str]]) -> list[list[str]]:
                 row.insert(i, ".")
 
     return expanded_grid
-
-
-def print_grid(grid):
-    for row in grid:
-        print(*row)
 
 
 def all_distance_pairs(grid: list[list[str]]) -> list[int]:
@@ -57,21 +51,92 @@ def all_distance_pairs(grid: list[list[str]]) -> list[int]:
     return dists
 
 
+def print_grid(grid):
+    for row in grid:
+        print(*row)
+
+
 def part1(input: str) -> int:
     data = parse_input(input)
-    # print("---")
     # print_grid(data)
-
     expanded = expand(data)
-    # print("---")
     # print_grid(expanded)
 
     vs = all_distance_pairs(expanded)
     return sum(vs) // 2
 
 
+################################################################################
+# part 2
+################################################################################
+
+emptiness_factor = 1000000 - 1
+
+
+# list of empty row and column indices, sorted
+def emptiness(grid: list[list[str]]) -> tuple[list[int], list[int]]:
+    rows, cols = [], []
+
+    for i, row in enumerate(grid):
+        should_expand_row = True
+        for char in row:
+            if char == "#":
+                should_expand_row = False
+                break
+        if should_expand_row:
+            rows.append(i)
+
+    width = len(grid[0])
+    for i in range(width):
+        should_expand_row = True
+        for row in grid:
+            char = row[i]
+            if char == "#":
+                should_expand_row = False
+                break
+        if should_expand_row:
+            cols.append(i)
+
+    return rows, cols
+
+
+def all_distance_pairs_with_emptiness(
+    grid: list[list[str]], emptiness: tuple[list[int], list[int]]
+) -> list[int]:
+    empty_rows, empty_cols = emptiness
+
+    locs = []
+    for y, row in enumerate(grid):
+        for x, char in enumerate(row):
+            if char == "#":
+                locs.append((y, x))
+    dists = []
+    for loc1 in locs:
+        for loc2 in locs:
+            if loc1 == loc2:
+                continue
+
+            dist = abs(loc1[0] - loc2[0]) + abs(loc1[1] - loc2[1])
+
+            # add emptiness
+            for row_idx in empty_rows:
+                if (row_idx > loc1[0] and row_idx < loc2[0]) or (
+                    row_idx > loc2[0] and row_idx < loc1[0]
+                ):
+                    dist += emptiness_factor
+            for col_idx in empty_cols:
+                if (col_idx > loc1[1] and col_idx < loc2[1]) or (
+                    col_idx > loc2[1] and col_idx < loc1[1]
+                ):
+                    dist += emptiness_factor
+
+            dists.append(dist)
+
+    return dists
+
+
 def part2(input: str) -> int:
     data = parse_input(input)
-    # print(data)
-
-    return 0
+    e = emptiness(data)
+    dists = all_distance_pairs_with_emptiness(data, e)
+    return sum(dists) // 2
