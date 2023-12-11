@@ -1,6 +1,3 @@
-import pprint
-
-
 def parse_input(input: str) -> list[list[str]]:
     return [[char for char in line] for line in input.split("\n")]
 
@@ -61,7 +58,7 @@ def walk(grid: list[list[str]]) -> tuple[set[tuple[int, int]], list[list[str]]]:
 
     # iterative BFS
     fringe = [(first_loc, start_loc)]  # loc, prior_loc (to prevent backtracking)
-    visited = {start_loc, first_loc}
+    visited = {start_loc, first_loc}  # the walk path
     while len(fringe) > 0:
         loc, prior_loc = fringe.pop(0)
         char = grid[loc[0]][loc[1]]
@@ -86,12 +83,27 @@ def walk(grid: list[list[str]]) -> tuple[set[tuple[int, int]], list[list[str]]]:
             visited.add(candidate_loc)
             fringe.append((candidate_loc, loc))
 
-    # use walk locations to return an updated grid
     updated_grid = [row.copy() for row in grid]
+
+    # turn all unconnected elements into "."
     for i in range(len(updated_grid)):
         for j in range(len(updated_grid[0])):
             if (i, j) not in visited:
                 updated_grid[i][j] = "."
+
+    # replace "S" with the equivalent pipe character
+    start_connected_dirs = []
+    for loc in visited:
+        if loc == start_loc:
+            continue
+        dir = (loc[0] - start_loc[0], loc[1] - start_loc[1])
+        if dir in dirs and is_connected_to_start(start_loc, loc, grid):
+            start_connected_dirs.append(dir)
+    start_connected_dirs = sorted(start_connected_dirs)
+
+    for k, vs in pipe_connecting_dirs.items():
+        if sorted(vs) == start_connected_dirs:
+            updated_grid[start_loc[0]][start_loc[1]] = k
 
     return visited, updated_grid
 
@@ -100,6 +112,7 @@ def translate(loc: tuple[int, int], dir: tuple[int, int]) -> tuple[int, int]:
     return (loc[0] + dir[0], loc[1] + dir[1])
 
 
+# a loc is enclosed if in all dirs, it is bounded by the path an odd number of times
 def is_enclosed(loc: tuple[int, int], grid: list[list[str]]) -> bool:
     for dir in dirs:
         wall_count = 0
@@ -113,13 +126,9 @@ def is_enclosed(loc: tuple[int, int], grid: list[list[str]]) -> bool:
             and cur_loc[1] < len(grid[0])
         ):
             cur_char = grid[cur_loc[0]][cur_loc[1]]
-            if cur_char == ".":
-                cur_loc = translate(cur_loc, dir)
-                continue
+            cur_loc = translate(cur_loc, dir)  # the loop iteration
 
-            # TODO: handle "S" earlier
-            if cur_char == "S":
-                cur_loc = translate(cur_loc, dir)
+            if cur_char == ".":
                 continue
 
             orthogonal_idx = 1 if dir == (-1, 0) or dir == (1, 0) else 0
@@ -128,18 +137,17 @@ def is_enclosed(loc: tuple[int, int], grid: list[list[str]]) -> bool:
                 if d[orthogonal_idx] != 0:
                     connections.append(d[orthogonal_idx])
 
-            if len(connections) == 2:
+            # this complexity is mainly managing corners
+            if len(connections) == 2:  # a wall like "|" or "-"
                 wall_count += 1
-            elif len(connections) == 1:
-                if prev_connection == None:
+            elif len(connections) == 1:  # a corner
+                if prev_connection is None:
                     prev_connection = connections[0]
                 elif connections[0] == prev_connection:
-                    prev_connection == None
+                    prev_connection = None
                 else:
-                    prev_connection == None
+                    prev_connection = None
                     wall_count += 1
-
-            cur_loc = translate(cur_loc, dir)
 
         if wall_count % 2 == 0:
             return False
@@ -152,12 +160,12 @@ def part1(input: str) -> int:
     return len(walk_locs) // 2
 
 
-# TODO: handle corner case. need to turn S into a pipe as well
 def part2(input: str) -> int:
     grid = parse_input(input)
-    # pprint.pprint(grid)
     walk_locs, updated_grid = walk(grid)
 
+    # NOTE: you could get a perf speed up by building up results incrementally.
+    #       keeping track of corners would be added complexity for state though.
     enclosed = []
     for i, row in enumerate(updated_grid):
         for j, char in enumerate(row):
