@@ -49,17 +49,9 @@ def all_distance_pairs(grid: list[list[str]]) -> list[int]:
     return dists
 
 
-def print_grid(grid):
-    for row in grid:
-        print(*row)
-
-
 def part1(input: str) -> int:
     data = parse_input(input)
-    # print_grid(data)
     expanded = expand(data)
-    # print_grid(expanded)
-
     dists = all_distance_pairs(expanded)
     return sum(dists)
 

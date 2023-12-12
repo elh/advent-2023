@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/21-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/22-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,17 +9,17 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	✓ ✓ 	 [0.0009, 0.0055]
-Day 2:	✓ ✓ 	 [0.0003, 0.0004]
-Day 3:	✓ ✓ 	 [0.0039, 0.0022]
-Day 4:	✓ ✓ 	 [0.0008, 0.0009]
-Day 5:	✓ ✓ 	 [0.0001, 0.0009]
+Day 1:	✓ ✓ 	 [0.0012, 0.0067]
+Day 2:	✓ ✓ 	 [0.0004, 0.0005]
+Day 3:	✓ ✓ 	 [0.0047, 0.0025]
+Day 4:	✓ ✓ 	 [0.0009, 0.0009]
+Day 5:	✓ ✓ 	 [0.0002, 0.001]
 Day 6:	✓ ✓ 	 [0.0, 0.0]
-Day 7:	✓ ✓ 	 [0.0127, 0.0175]
-Day 8:	✓ ✓ 	 [0.0024, 0.0152]
+Day 7:	✓ ✓ 	 [0.0135, 0.0177]
+Day 8:	✓ ✓ 	 [0.0025, 0.0145]
 Day 9:	✓ ✓ 	 [0.0024, 0.0023]
-Day 10:	✓ ? 	 [0.0085, 0.0002]
-Day 11:	✓ ✓ 	 [0.0147, 0.1089]
+Day 10:	✓ ✓ 	 [0.0108, 0.1099]
+Day 11:	✓ ✓ 	 [0.0142, 0.1068]
 Day 12:	- - 	 [None, None]
 Day 13:	- - 	 [None, None]
 Day 14:	- - 	 [None, None]
@@ -35,8 +35,8 @@ Day 23:	- - 	 [None, None]
 Day 24:	- - 	 [None, None]
 Day 25:	- - 	 [None, None]
 
-Results: 21 ✓, 0 x, 1 ?, 28 -, 0 s
-Total time (s): 0.2007
+Results: 22 ✓, 0 x, 0 ?, 28 -, 0 s
+Total time (s): 0.3136
 ```
 
 ✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented, s = Skipped
@@ -81,9 +81,9 @@ make good       # runs lint, pretty
   * Implemented a common main.py that can dynamically import solutions functions via importlib.
 * 12/2
   * Played around with some Python tooling: ruff, black, mypy.
-  * Added a all.py script.
+  * Added an all.py script.
 * 12/3
-  * Day 4: Nice clean single-pass iterative solution.
+  * Day 4: Clean single-pass iterative solution.
 * 12/4
   * Day 5: Pleased with how fast I solved part 2 by coming up with a well bounded brute force solution. Performance is quite poor though taking 5s and I get a little confused thinking through the ranges. Done shortly after takeoff from Taiwan back to SF 🌉.
 * 12/5
@@ -99,3 +99,4 @@ make good       # runs lint, pretty
   * Day 10: Part 2 is the first puzzle to defeat me on the initial sitting at 6am jet lagged in the citizenM Bankside lobby. I'm familiar with winding numbers but have difficulty adapting the idea to the ascii grid after horribly fumbling the set up in Part 1.
 * 12/11
   * Day 11: Part 1 completed in a taxi on the way to Heathrow airport.
+  * Day 10: Part 2 revisited and solved using the even-odd rule for winding numbers and checking on cardinal directions from a given point. Great puzzle! We handle corners by treating them as connecting on one side. The next seen corner either connects on the opposite side completing the wall or on the same side which cancels it out. Some fun corner cases like handling "S" and handling unconnected pipes are done as preprocessing. Done before falling asleep the flight from London to Delhi on the way to a coworker's wedding.
