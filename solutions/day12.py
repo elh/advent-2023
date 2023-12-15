@@ -1,3 +1,7 @@
+import time
+
+
+# tuple of (characters, run lens)
 def parse_input(input: str):
     lines = [
         line.removeprefix("// ").split()
@@ -25,17 +29,17 @@ def expand_row(data: tuple[list[str], list[int]]) -> tuple[list[str], list[int]]
     return new_arrangement, new_run_lens
 
 
-def count_runs(arrangement: list[str]) -> list[int]:
-    run_lens = []
-    for i in range(len(arrangement)):
-        if arrangement[i] == "?":
-            break
-        if arrangement[i] == "#":
-            if i == 0 or arrangement[i - 1] == ".":
-                run_lens.append(1)
-            else:
-                run_lens[-1] += 1
-    return run_lens
+# def count_runs(arrangement: list[str]) -> list[int]:
+#     run_lens = []
+#     for i in range(len(arrangement)):
+#         if arrangement[i] == "?":
+#             break
+#         if arrangement[i] == "#":
+#             if i == 0 or arrangement[i - 1] == ".":
+#                 run_lens.append(1)
+#             else:
+#                 run_lens[-1] += 1
+#     return run_lens
 
 
 def is_valid(actual_run_lens: list[int], expected_run_lens: list[int]) -> bool:
@@ -45,6 +49,7 @@ def is_valid(actual_run_lens: list[int], expected_run_lens: list[int]) -> bool:
 # is valid prefix
 # NOTE: this seems essential
 # TODO: not considering if we are on an active run or for a sure the run is over
+# TODO: more efficient check. one that makes more sense for the memoized sub problem approach
 def is_valid_prefix(actual_run_lens: list[int], expected_run_lens: list[int]) -> bool:
     return actual_run_lens == expected_run_lens[: len(actual_run_lens)] or (
         len(actual_run_lens) > 0
@@ -60,56 +65,101 @@ def is_valid_prefix(actual_run_lens: list[int], expected_run_lens: list[int]) ->
 
 # backtracking count
 # NOTE: turning final case of incrementing idx into iterative does not help either
+# TODO: NEW: turn this into a memoized function. optimize memoization by removing idx and making it always act against the remining arrangement
+# chop off prefix as you go. figure out how to handle run_lens and idx_current_run_lens
 def count_valid_arrangements(
-    arrangement: list[str], run_lens: list[int], idx: int
+    arrangement: list[str],
+    run_lens: list[int],
+    idx: int,
+    idx_current_run_lens: list[int],
+    idx_active_run: bool,
 ) -> int:
-    actual_run_lens = count_runs(arrangement)
+    # actual_run_lens = count_runs(arrangement)
+
     # print(
     #     "".join(arrangement),
-    #     actual_run_lens,
+    #     idx_current_run_lens,
     #     run_lens,
     #     idx,
-    #     is_valid_prefix(actual_run_lens, run_lens),
+    #     is_valid_prefix(idx_current_run_lens, run_lens),
     # )
 
-    if not is_valid_prefix(actual_run_lens, run_lens):
+    if not is_valid_prefix(idx_current_run_lens, run_lens):
         return 0
 
-    # early terminate if there are not enough remaining ?s to fill the run lengths
-    # NOTE: these 2 seem useless...
+    # early terminate if there are not enough remaining "?"s and "#"s to fill the run lengths
     # TODO: different idea: instead of just checking the prefix, check entire run with possible gaps
-    # if sum(actual_run_lens) + sum(
-    #     [1 if c == "?" or c == "#" else 0 for c in arrangement[idx:]]
-    # ) < sum(run_lens):
-    #     return 0
+    if sum(idx_current_run_lens) + sum(
+        [1 if c == "?" or c == "#" else 0 for c in arrangement[idx:]]
+    ) < sum(run_lens):
+        return 0
 
-    # if len(actual_run_lens) + sum(
-    #     [1 if c == "?" or c == "." else 0 for c in arrangement[idx:]]
-    # ) < len(run_lens):
+    # NOTE: this doesnt seem to help
+    # if (
+    #     len(idx_current_run_lens)
+    #     + sum([1 if c == "?" or c == "." else 0 for c in arrangement[idx:]])
+    #     < len(run_lens) - 1
+    # ):
     #     return 0
 
     if idx == len(arrangement):
-        return 1 if is_valid(actual_run_lens, run_lens) else 0
+        return 1 if is_valid(idx_current_run_lens, run_lens) else 0
 
-    if arrangement[idx] == "?":
-        count = 0
-        for c in ["#", "."]:
-            arrangement[idx] = c
-            count += count_valid_arrangements(arrangement, run_lens, idx + 1)
+    count = 0
+    is_question_mark = arrangement[idx] == "?"
+    chars = ["#", "."] if is_question_mark else [arrangement[idx]]
+
+    for char in chars:
+        # TODO: this isnt really functional but helps visualize
+        arrangement[idx] = char
+        next_current_run_lens = None
+        if char == "#":
+            if idx_active_run:
+                next_current_run_lens = idx_current_run_lens.copy()
+                next_current_run_lens[-1] += 1
+            else:
+                next_current_run_lens = idx_current_run_lens + [1]
+        else:
+            next_current_run_lens = idx_current_run_lens
+
+        next_active_run = char == "#"
+        count += count_valid_arrangements(
+            arrangement,
+            run_lens,
+            idx + 1,
+            next_current_run_lens,
+            next_active_run,
+        )
+    # TODO: this isnt really functional but helps visualize
+    if is_question_mark:
         arrangement[idx] = "?"
-        return count
-    else:
-        return count_valid_arrangements(arrangement, run_lens, idx + 1)
+    return count
+
+
+def timed(fn):
+    start_t = time.time()
+    res = fn()
+    print("time:", time.time() - start_t)
+    return res
 
 
 def part1(input: str) -> int:
     data = parse_input(input)
-    counts = [count_valid_arrangements(l[0], l[1], 0) for l in data]
+    # counts = [
+    #     timed(lambda: count_valid_arrangements(l[0], l[1], 0, [], False)) for l in data
+    # ]
+    counts = [count_valid_arrangements(l[0], l[1], 0, [], False) for l in data]
     return sum(counts)
 
 
 def part2(input: str) -> int:
+    raise Exception("Not implemented")
+
     data = parse_input(input)
     expanded = [expand_row(d) for d in data]
-    counts = [count_valid_arrangements(l[0], l[1], 0) for l in expanded]
+    # counts = [
+    #     timed(lambda: count_valid_arrangements(l[0], l[1], 0, [], False))
+    #     for l in expanded
+    # ]
+    counts = [count_valid_arrangements(l[0], l[1], 0, [], False) for l in expanded]
     return sum(counts)
