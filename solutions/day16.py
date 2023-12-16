@@ -69,7 +69,7 @@ def part1(input: str) -> int:
     return cast_light(grid, ((0, 0), (0, 1)))
 
 
-# TODO: perf? takes >1s
+# TODO: perf: memoize lit squares given a specific beam (loc, dir)
 def part2(input: str) -> int:
     grid = parse_input(input)
 
