@@ -1,4 +1,5 @@
 import time
+from functools import cache
 
 
 # tuple of (characters, run lens)
@@ -61,6 +62,50 @@ def is_valid_prefix(actual_run_lens: list[int], expected_run_lens: list[int]) ->
             < expected_run_lens[len(actual_run_lens) - 1]
         )
     )
+
+
+# DP implementation
+@cache
+def count_valid_arrangements_2(
+    arrangement: tuple[str, ...],  # fyi tuple makes this hashable for cache decorator
+    run_lens: tuple[int, ...],
+    current_run_len: int,  # if >1, we are in an active run
+) -> int:
+    # if current run greater than next desired run, fail
+    if (current_run_len > 0 and len(run_lens) == 0) or (
+        len(run_lens) > 0 and current_run_len > run_lens[0]
+    ):
+        return 0
+
+    # if end of arrangement, return if current run exactly matches final desired run
+    if len(arrangement) == 0:
+        return (
+            1
+            if (current_run_len == 0 and len(run_lens) == 0)
+            or (current_run_len == run_lens[0] and len(run_lens) == 1)
+            else 0
+        )
+
+    count = 0
+    curr, next_arrangement = arrangement[0], arrangement[1:]
+
+    chars = ["#", "."] if curr == "?" else [curr]
+    for char in chars:
+        next_run_lens, next_current_run_len = run_lens, current_run_len
+
+        if char == "#":
+            next_current_run_len = current_run_len + 1
+        else:
+            if current_run_len > 0:
+                if len(run_lens) == 0 or current_run_len != run_lens[0]:
+                    continue
+                next_run_lens = run_lens[1:]
+                next_current_run_len = 0
+
+        count += count_valid_arrangements_2(
+            next_arrangement, next_run_lens, next_current_run_len
+        )
+    return count
 
 
 # backtracking count
@@ -148,12 +193,13 @@ def part1(input: str) -> int:
     # counts = [
     #     timed(lambda: count_valid_arrangements(l[0], l[1], 0, [], False)) for l in data
     # ]
-    counts = [count_valid_arrangements(l[0], l[1], 0, [], False) for l in data]
+    # counts = [count_valid_arrangements(l[0], l[1], 0, [], False) for l in data]
+    counts = [count_valid_arrangements_2(tuple(l[0]), tuple(l[1]), 0) for l in data]
     return sum(counts)
 
 
 def part2(input: str) -> int:
-    raise Exception("Not implemented")
+    # raise Exception("Not implemented")
 
     data = parse_input(input)
     expanded = [expand_row(d) for d in data]
@@ -161,5 +207,6 @@ def part2(input: str) -> int:
     #     timed(lambda: count_valid_arrangements(l[0], l[1], 0, [], False))
     #     for l in expanded
     # ]
-    counts = [count_valid_arrangements(l[0], l[1], 0, [], False) for l in expanded]
+    # counts = [count_valid_arrangements(l[0], l[1], 0, [], False) for l in expanded]
+    counts = [count_valid_arrangements_2(tuple(l[0]), tuple(l[1]), 0) for l in expanded]
     return sum(counts)
