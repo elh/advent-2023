@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/24-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/28-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,22 +9,22 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	✓ ✓ 	 [0.001, 0.0067]
+Day 1:	✓ ✓ 	 [0.001, 0.0064]
 Day 2:	✓ ✓ 	 [0.0004, 0.0005]
-Day 3:	✓ ✓ 	 [0.0047, 0.0025]
-Day 4:	✓ ✓ 	 [0.0009, 0.001]
-Day 5:	✓ ✓ 	 [0.0002, 0.0011]
+Day 3:	✓ ✓ 	 [0.0045, 0.0025]
+Day 4:	✓ ✓ 	 [0.001, 0.001]
+Day 5:	✓ ✓ 	 [0.0002, 0.001]
 Day 6:	✓ ✓ 	 [0.0, 0.0]
-Day 7:	✓ ✓ 	 [0.0139, 0.0176]
-Day 8:	✓ ✓ 	 [0.0024, 0.0145]
-Day 9:	✓ ✓ 	 [0.0024, 0.0022]
-Day 10:	✓ ✓ 	 [0.0111, 0.1089]
-Day 11:	✓ ✓ 	 [0.0069, 0.0518]
-Day 12:	✓ ✓ 	 [0.0217, 0.7309]
-Day 13:	- - 	 [None, None]
-Day 14:	- - 	 [None, None]
-Day 15:	- - 	 [None, None]
-Day 16:	- - 	 [None, None]
+Day 7:	✓ ✓ 	 [0.0128, 0.0164]
+Day 8:	✓ ✓ 	 [0.0023, 0.0142]
+Day 9:	✓ ✓ 	 [0.0024, 0.0024]
+Day 10:	✓ ✓ 	 [0.0113, 0.1109]
+Day 11:	✓ ✓ 	 [0.0067, 0.0521]
+Day 12:	✓ ✓ 	 [0.0215, 0.7287]
+Day 13:	✓ ? 	 [0.0006, 0.0003]
+Day 14:	✓ ? 	 [0.0009, 0.0001]
+Day 15:	✓ ? 	 [0.0011, 0.0]
+Day 16:	✓ ? 	 [0.0052, 0.0001]
 Day 17:	- - 	 [None, None]
 Day 18:	- - 	 [None, None]
 Day 19:	- - 	 [None, None]
@@ -35,8 +35,8 @@ Day 23:	- - 	 [None, None]
 Day 24:	- - 	 [None, None]
 Day 25:	- - 	 [None, None]
 
-Results: 24 ✓, 0 x, 0 ?, 26 -, 0 s
-Total time (s): 1.0032
+Results: 28 ✓, 0 x, 4 ?, 18 -, 0 s
+Total time (s): 1.0085
 ```
 
 ✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented, s = Skipped
@@ -101,5 +101,6 @@ make good       # runs lint, pretty
   * Day 11: Part 1 completed in a taxi on the way to Heathrow airport.
   * Day 10: Part 2 revisited and solved using the even-odd rule for winding numbers and checking on cardinal directions from a given point. Great puzzle! We handle corners by treating them as connecting on one side. The next seen corner either connects on the opposite side completing the wall or on the same side which cancels it out. Some fun corner cases like handling "S" and handling unconnected pipes are done as preprocessing. Done before falling asleep the flight from London to Delhi on the way to a coworker's wedding.
 * 12/16
+  * Wrapped up an incredible wedding in Jaipur 🎊!
   * Day 12: Part 2 solved with DP by treating `s[1:]` as the subproblem and using the `@cache` decorator.
-  * Wrapped up an incredible wedding in Jaipur! Flying back to SF today and will try to have access to part 2's for the flight in case I'm not too sleepy.
+  * Quickly got through Days 13-16 part 1's so I have access to part 2's for the flight back in case I'm not too sleepy 😪.
