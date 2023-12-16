@@ -7,10 +7,13 @@ def translate(loc: tuple[int, int], dir: tuple[int, int]) -> tuple[int, int]:
 
 
 # return # of lit squares
-def cast_light(grid: list[list[str]]) -> int:
-    # as sets of tuples of (y, x) and direction (dy, dx)
+# light beams represented as tuples of location (y, x) and direction (dy, dx)
+def cast_light(
+    grid: list[list[str]], start: tuple[tuple[int, int], tuple[int, int]]
+) -> int:
+    # as sets of light beams
     light_history = set()
-    lights = {((0, 0), (0, 1))}  # initial beam
+    lights = {start}
 
     while len(lights) > 0:
         light = lights.pop()
@@ -63,12 +66,20 @@ def cast_light(grid: list[list[str]]) -> int:
 
 def part1(input: str) -> int:
     grid = parse_input(input)
-    return cast_light(grid)
+    return cast_light(grid, ((0, 0), (0, 1)))
 
 
+# TODO: perf? takes >1s
 def part2(input: str) -> int:
-    data = parse_input(input)
-    _ = data
-    # print(data)
+    grid = parse_input(input)
 
-    return 0
+    candidates = []
+    for i in range(len(grid)):
+        candidates.append(((i, 0), (0, 1)))
+        candidates.append(((i, len(grid[0]) - 1), (0, -1)))
+    for i in range(len(grid[0])):
+        candidates.append(((0, i), (1, 0)))
+        candidates.append(((len(grid) - 1, i), (-1, 0)))
+
+    counts = [cast_light(grid, candidate) for candidate in candidates]
+    return max(counts)
