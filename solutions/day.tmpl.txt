@@ -5,13 +5,15 @@ def parse_input(input: str):
 
 def part1(input: str) -> int:
     data = parse_input(input)
-    print(data)
+    _ = data
+    # print(data)
 
     return 0
 
 
 def part2(input: str) -> int:
     data = parse_input(input)
-    print(data)
+    _ = data
+    # print(data)
 
     return 0
