@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/30-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/32-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,22 +9,22 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	✓ ✓ 	 [0.0011, 0.007]
-Day 2:	✓ ✓ 	 [0.0004, 0.0005]
-Day 3:	✓ ✓ 	 [0.0049, 0.0025]
-Day 4:	✓ ✓ 	 [0.0009, 0.001]
-Day 5:	✓ ✓ 	 [0.0002, 0.0011]
+Day 1:	✓ ✓ 	 [0.0012, 0.008]
+Day 2:	✓ ✓ 	 [0.0005, 0.0006]
+Day 3:	✓ ✓ 	 [0.0056, 0.003]
+Day 4:	✓ ✓ 	 [0.0012, 0.0012]
+Day 5:	✓ ✓ 	 [0.0002, 0.0013]
 Day 6:	✓ ✓ 	 [0.0, 0.0]
-Day 7:	✓ ✓ 	 [0.0137, 0.0173]
-Day 8:	✓ ✓ 	 [0.0024, 0.0144]
-Day 9:	✓ ✓ 	 [0.0023, 0.0023]
-Day 10:	✓ ✓ 	 [0.0109, 0.1101]
-Day 11:	✓ ✓ 	 [0.0069, 0.0513]
-Day 12:	✓ ✓ 	 [0.0216, 0.715]
-Day 13:	✓ ✓ 	 [0.001, 0.001]
-Day 14:	✓ ? 	 [0.0009, 0.0001]
-Day 15:	✓ ? 	 [0.0011, 0.0]
-Day 16:	✓ ✓ 	 [0.0049, 1.2659]
+Day 7:	✓ ✓ 	 [0.0176, 0.0243]
+Day 8:	✓ ✓ 	 [0.0034, 0.0205]
+Day 9:	✓ ✓ 	 [0.0033, 0.0033]
+Day 10:	✓ ✓ 	 [0.0156, 0.1614]
+Day 11:	✓ ✓ 	 [0.0099, 0.0769]
+Day 12:	✓ ✓ 	 [0.0273, 0.6667]
+Day 13:	✓ ✓ 	 [0.0016, 0.0015]
+Day 14:	✓ ✓ 	 [0.0014, 0.6438]
+Day 15:	✓ ✓ 	 [0.0029, 0.0042]
+Day 16:	✓ ✓ 	 [0.0119, 0.8791]
 Day 17:	- - 	 [None, None]
 Day 18:	- - 	 [None, None]
 Day 19:	- - 	 [None, None]
@@ -35,8 +35,8 @@ Day 23:	- - 	 [None, None]
 Day 24:	- - 	 [None, None]
 Day 25:	- - 	 [None, None]
 
-Results: 30 ✓, 0 x, 2 ?, 18 -, 0 s
-Total time (s): 2.2627
+Results: 32 ✓, 0 x, 0 ?, 18 -, 0 s
+Total time (s): 2.5994
 ```
 
 ✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented, s = Skipped
@@ -104,3 +104,5 @@ make good       # runs lint, pretty
   * Wrapped up an incredible wedding in Jaipur 🎊!
   * Day 12: Part 2 solved with DP by treating `s[1:]` as the subproblem and using the `@cache` decorator.
   * Quickly got through Days 13-16 part 1's so I have access to part 2's for the flight back in case I'm not too sleepy 😪.
+  * Day 14: Part 2 solved by detecting loops and finding equivalent position via modulo.
+  * Day 16: Performance improved reusing previous results. `cast_light` returns a graph of lights and downstream lights which we can optionally take as an argument as well and build upon.
