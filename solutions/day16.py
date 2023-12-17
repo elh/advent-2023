@@ -15,15 +15,21 @@ def cast_light(
     grid: list[list[str]],
     # TODO: take a map of known lights
     light: tuple[tuple[int, int], tuple[int, int]],
-) -> dict[tuple[tuple[int, int], tuple[int, int]], set[tuple[int, int]]]:
+) -> dict[
+    tuple[tuple[int, int], tuple[int, int]],
+    set[tuple[tuple[int, int], tuple[int, int]]],
+]:
     # TODO: return a dict of all lights -> sets they cover (is this gonna be too much mem...?)
     # fringe of (beam, history) tuples
 
-    out: dict[tuple[tuple[int, int], tuple[int, int]], set[tuple[int, int]]] = {}
-    lights = [(light, set())]
+    out: dict[
+        tuple[tuple[int, int], tuple[int, int]],
+        set[tuple[tuple[int, int], tuple[int, int]]],
+    ] = {}
+    lights = [(light, None)]
 
     while len(lights) > 0:
-        light, light_history = lights.pop()
+        light, prior = lights.pop()
         if light in out:
             # TODO: add the cycle to out
             continue
@@ -34,52 +40,83 @@ def cast_light(
         if cur_loc[0] >= len(grid) or cur_loc[1] >= len(grid[0]):
             continue
 
-        next_light_history = light_history.copy()
-        next_light_history.add(light)
+        # next_light_history = light_history.copy()
+        # next_light_history.add(light)
 
-        if light not in out:
-            out[light] = set()
-        out[light].add(cur_loc)
+        # if light not in out:
+        #     out[light] = set()
+        # out[light].add(cur_loc)
 
-        for prev_light in light_history:
-            if prev_light not in out:
-                out[prev_light] = set()
-            out[prev_light].add(cur_loc)
+        # for prev_light in light_history:
+        #     if prev_light not in out:
+        #         out[prev_light] = set()
+        #     out[prev_light].add(cur_loc)
+        if prior is not None:
+            if prior not in out:
+                out[prior] = set()
+            out[prior].add(light)
 
         cur_content = grid[cur_loc[0]][cur_loc[1]]
         if cur_content == ".":
             next_loc = translate(cur_loc, cur_dir)
-            lights.append(((next_loc, cur_dir), next_light_history))
+            lights.append(((next_loc, cur_dir), light))
         # reflect 90 degrees
         elif cur_content == "/":
             next_dir = (-1 * cur_dir[1], -1 * cur_dir[0])
             next_loc = translate(cur_loc, next_dir)
-            lights.append(((next_loc, next_dir), next_light_history))
+            lights.append(((next_loc, next_dir), light))
         elif cur_content == "\\":
             next_dir = (cur_dir[1], cur_dir[0])
             next_loc = translate(cur_loc, next_dir)
-            lights.append(((next_loc, next_dir), next_light_history))
+            lights.append(((next_loc, next_dir), light))
         # split
         elif cur_content == "|":
             if cur_dir[0] != 0:
                 next_loc = translate(cur_loc, cur_dir)
-                lights.append(((next_loc, cur_dir), next_light_history))
+                lights.append(((next_loc, cur_dir), light))
             else:
                 for next_dir in [(1, 0), (-1, 0)]:
                     next_loc = translate(cur_loc, next_dir)
-                    lights.append(((next_loc, next_dir), next_light_history))
+                    lights.append(((next_loc, next_dir), light))
         elif cur_content == "-":
             if cur_dir[1] != 0:
                 next_loc = translate(cur_loc, cur_dir)
-                lights.append(((next_loc, cur_dir), next_light_history))
+                lights.append(((next_loc, cur_dir), light))
             else:
                 for next_dir in [(0, 1), (0, -1)]:
                     next_loc = translate(cur_loc, next_dir)
-                    lights.append(((next_loc, next_dir), next_light_history))
+                    lights.append(((next_loc, next_dir), light))
         else:
             raise Exception("Invalid grid content")
 
     return out
+
+
+# TODO: memoize this
+def crawl(
+    d: dict[
+        tuple[tuple[int, int], tuple[int, int]],
+        set[tuple[tuple[int, int], tuple[int, int]]],
+    ],
+    light: tuple[tuple[int, int], tuple[int, int]],
+) -> int:
+    seen = set()
+    locs = set()
+    fringe = [light]
+    while len(fringe) > 0:
+        # print("fringe:", fringe)
+        cur = fringe.pop()
+        if cur in seen:
+            continue
+
+        seen.add(cur)
+        locs.add(cur[0])
+        if cur in d:
+            for child in d[cur]:
+                # print(child)
+                fringe.append(child)
+
+    return len(locs)
 
 
 def part1(input: str) -> int:
@@ -87,7 +124,9 @@ def part1(input: str) -> int:
     start_light = ((0, 0), (0, 1))
     light_data = cast_light(grid, start_light)
     # pprint.pprint(light_data)
-    return len(light_data[start_light])
+    # return len(light_data[start_light])
+
+    return crawl(light_data, start_light)
 
 
 # TODO: perf: memoize lit squares given a specific beam (loc, dir)
