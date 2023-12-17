@@ -1,6 +1,3 @@
-import pprint
-
-
 def parse_input(input: str) -> list[list[str]]:
     return [[char for char in line] for line in input.split("\n")]
 
@@ -9,36 +6,43 @@ def translate(loc: tuple[int, int], dir: tuple[int, int]) -> tuple[int, int]:
     return (loc[0] + dir[0], loc[1] + dir[1])
 
 
-# return # of lit squares
+# return a graph of all reachable lights starting from this starting one
 # light beams represented as tuples of location (y, x) and direction (dy, dx)
 def cast_light(
     grid: list[list[str]],
     light: tuple[tuple[int, int], tuple[int, int]],
+    # a previous result for this grid that we can re-use
     known_lights: dict[
         tuple[tuple[int, int], tuple[int, int]],
         set[tuple[tuple[int, int], tuple[int, int]]],
-    ],
+    ]
+    | None,
 ) -> dict[
     tuple[tuple[int, int], tuple[int, int]],
     set[tuple[tuple[int, int], tuple[int, int]]],
 ]:
-    # TODO: return a dict of all lights -> sets they cover (is this gonna be too much mem...?)
-    # fringe of (beam, history) tuples
-
+    # graph of connected lights
     out: dict[
         tuple[tuple[int, int], tuple[int, int]],
         set[tuple[tuple[int, int], tuple[int, int]]],
     ] = (
         known_lights if known_lights is not None else {}
     )
-    lights = [(light, None)]
+    # fringe of lights and the previous light that produced this one
+    lights: list[
+        tuple[
+            tuple[tuple[int, int], tuple[int, int]],
+            tuple[tuple[int, int], tuple[int, int]] | None,
+        ]
+    ] = [(light, None)]
 
     while len(lights) > 0:
         light, prior = lights.pop()
         if light in out:
-            if prior not in out:
-                out[prior] = set()
-            out[prior].add(light)
+            if prior is not None:
+                if prior not in out:
+                    out[prior] = set()
+                out[prior].add(light)
             continue
         cur_loc, cur_dir = light
 
@@ -88,7 +92,7 @@ def cast_light(
     return out
 
 
-# TODO: memoize this
+# TODO: memoize this. issues with default recursion depth though
 def crawl(
     d: dict[
         tuple[tuple[int, int], tuple[int, int]],
@@ -120,7 +124,6 @@ def part1(input: str) -> int:
     return crawl(light_data, start_light)
 
 
-# TODO: perf: memoize lit squares given a specific beam (loc, dir)
 def part2(input: str) -> int:
     grid = parse_input(input)
 
