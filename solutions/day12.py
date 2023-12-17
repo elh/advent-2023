@@ -36,22 +36,22 @@ def count_valid_arrangements(
     run_lens: tuple[int, ...],
     current_run_len: int,  # if >1, we are in an active run
 ) -> int:
+    # if end of arrangement, return if current run exactly matches final desired run
+    if len(arrangement) == 0:
+        return (len(run_lens) == 0 and current_run_len == 0) or (
+            len(run_lens) == 1 and current_run_len == run_lens[0]
+        )
+
     # if current run greater than next desired run, fail
     if (current_run_len > 0 and len(run_lens) == 0) or (
         len(run_lens) > 0 and current_run_len > run_lens[0]
     ):
         return 0
 
-    # if end of arrangement, return if current run exactly matches final desired run
-    if len(arrangement) == 0:
-        return (
-            1
-            if (current_run_len == 0 and len(run_lens) == 0)
-            or (current_run_len == run_lens[0] and len(run_lens) == 1)
-            else 0
-        )
-
-    # TODO: perf: early termination if insufficient char in arrangement to fill lens
+    # early exit if insufficient chars left in arrangement to produce run_lens
+    # `len(run_lens) - 1` term because runs must be separated
+    if sum(run_lens) + len(run_lens) - 1 > len(arrangement) + current_run_len:
+        return 0
 
     count = 0
     curr, next_arrangement = arrangement[0], arrangement[1:]
