@@ -1,5 +1,6 @@
 from functools import cmp_to_key
-import pprint
+
+verbose = False
 
 
 def parse_input_p1(input: str):
@@ -32,6 +33,11 @@ deltas = {
     "L": (0, -1),
     "R": (0, 1),
 }
+
+
+def debug(*args, **kwargs):
+    if verbose:
+        print(*args, **kwargs)
 
 
 def list_to_pairs(l: list):
@@ -94,88 +100,7 @@ def part1(input: str) -> int:
 
 
 def part2(input: str) -> int:
-    # # 18
-    # lines = [
-    #     ("R", 1),
-    #     ("U", 2),
-    #     ("R", 2),
-    #     ("D", 4),
-    #     ("L", 3),
-    #     ("U", 2),
-    # ]
-
-    # # 18
-    # lines = [
-    #     ("R", 4),
-    #     ("D", 3),
-    #     ("L", 2),
-    #     ("U", 1),
-    #     ("L", 2),
-    #     ("U", 2),
-    # ]
-
-    # # 33
-    # lines = [
-    #     ("R", 2),
-    #     ("D", 2),
-    #     ("R", 2),
-    #     ("U", 2),
-    #     ("R", 2),
-    #     ("D", 4),
-    #     ("L", 6),
-    #     ("U", 4),
-    # ]
-
-    # 33
-    # lines = [
-    #     ("R", 6),
-    #     ("D", 4),
-    #     ("L", 2),
-    #     ("U", 2),
-    #     ("L", 2),
-    #     ("D", 2),
-    #     ("L", 2),
-    #     ("U", 4),
-    # ]
-
-    # lines = [
-    #     ("R", 4),
-    #     ("D", 6),
-    #     ("L", 4),
-    #     ("U", 2),
-    #     ("R", 2),
-    #     ("U", 2),
-    #     ("L", 2),
-    #     ("U", 2),
-    # ]
-
-    # 39
-    # lines = [
-    #     ("R", 4),
-    #     ("D", 6),
-    #     ("L", 6),
-    #     ("U", 2),
-    #     ("R", 4),
-    #     ("U", 2),
-    #     ("L", 2),
-    #     ("U", 2),
-    # ]
-
-    # # 27
-    # lines = [
-    #     ("R", 2),
-    #     ("D", 4),
-    #     ("L", 3),
-    #     ("D", 1),
-    #     ("L", 2),
-    #     ("U", 3),
-    #     ("R", 3),
-    #     ("U", 2),
-    # ]
-
-    # TODO: use parse_input_p2
     lines = parse_input_p2(input)
-    # print(lines)
     corners = [(0, 0)]  # (y,x)
     for dir, size in lines:
         delta = (deltas[dir][0] * size, deltas[dir][1] * size)
@@ -187,7 +112,6 @@ def part2(input: str) -> int:
     corners = corners[:-1]
     if len(corners) != len(set(corners)):
         raise ValueError("Duplicate corners")
-    # print(corners)
 
     def compare_corners(l1: tuple[int, int], l2: tuple[int, int]):
         if l1[0] < l2[0]:
@@ -213,20 +137,17 @@ def part2(input: str) -> int:
             raise ValueError("Duplicate x coords")
         if len(group_xs) % 2 != 0:
             raise ValueError("Uneven number of x coords")
-    grouped = [(y, list_to_pairs(xs)) for y, xs in grouped]
-    pprint.pprint(grouped)
-    # raise Exception("stop")
-    print("START START START")
+    grouped = [(y, list_to_pairs(xs)) for y, xs in grouped]  # hacky
+    debug(grouped)
 
     area = 0
     prev_y = grouped[0][0]
     active_ranges = grouped[0][1]
-    # print(active_ranges)
     for group_y, group_xs in grouped[1:]:
-        print("----------------------------------------")
-        print("area:", area)
-        print("active_ranges:", active_ranges)
-        print("current:", group_y, group_xs)
+        debug("----------------------------------------------------")
+        debug("area:", area)
+        debug("active_ranges:", active_ranges)
+        debug("current:", group_y, group_xs)
         for active_range in active_ranges:
             if len(active_range) != 2:
                 raise ValueError("active_range is not a pair")
@@ -235,16 +156,14 @@ def part2(input: str) -> int:
 
         # add new area for the previous active ranges
         for active_range in active_ranges:
-            print(
-                "+= area",
-                (group_y - prev_y) * (active_range[1] - active_range[0] + 1),
-            )
-            area += (group_y - prev_y) * (active_range[1] - active_range[0] + 1)
+            new_area = (group_y - prev_y) * (active_range[1] - active_range[0] + 1)
+            debug("+= area", new_area)
+            area += new_area
         prev_y = group_y
 
         # update active ranges
-        print("--------------------------")
-        print("group_xs", group_xs)
+        debug("--------------------------")
+        debug("group_xs", group_xs)
         for group_x in group_xs:
             # possible cases
             # group_x edges == edges of 2 active_ranges -> merge them
@@ -263,7 +182,7 @@ def part2(input: str) -> int:
                 if active_range[0] == group_x[1]:
                     high_match = active_range
             if low_match and high_match:
-                print("COMBINE")
+                debug("COMBINE")
                 new_active_ranges = [
                     active_range
                     for active_range in active_ranges
@@ -274,39 +193,40 @@ def part2(input: str) -> int:
 
             if not was_combined:
                 for active_range in active_ranges:
-                    print("group_x", group_x)
-                    print("active_range", active_range)
+                    debug("-------------")
+                    debug("group_x", group_x)
+                    debug("active_range", active_range)
 
                     # is group_x == active_range, remove it
                     if group_x[0] == active_range[0] and group_x[1] == active_range[1]:
                         # special case for grid arithmatic. add this line to the area
                         area += active_range[1] - active_range[0] + 1
-                        print("END")
+                        debug("END")
                         was_combined = True
                         continue
 
                     # is group_x and active_range share 1 corner, expand or shrink it
                     if group_x[1] == active_range[0]:
-                        print("EXPAND")
+                        debug("EXPAND")
                         new_active_ranges.append((group_x[0], active_range[1]))
                         was_combined = True
                         continue
                     if group_x[0] == active_range[1]:
-                        print("EXPAND")
+                        debug("EXPAND")
                         new_active_ranges.append((active_range[0], group_x[1]))
                         was_combined = True
                         continue
                     if group_x[0] == active_range[0]:
                         # special case for grid arithmatic. add this line to the area
                         area += group_x[1] - group_x[0]
-                        print("SHRINK")
+                        debug("SHRINK")
                         new_active_ranges.append((group_x[1], active_range[1]))
                         was_combined = True
                         continue
                     if group_x[1] == active_range[1]:
                         # special case for grid arithmatic. add this line to the area
                         area += group_x[1] - group_x[0]
-                        print("SHRINK")
+                        debug("SHRINK")
                         new_active_ranges.append((active_range[0], group_x[0]))
                         was_combined = True
                         continue
@@ -315,7 +235,7 @@ def part2(input: str) -> int:
                     if group_x[0] > active_range[0] and group_x[1] < active_range[1]:
                         # special case for grid arithmatic. add this line to the area
                         area += group_x[1] - group_x[0] - 1
-                        print("SPLIT")
+                        debug("SPLIT")
                         new_active_ranges.append((active_range[0], group_x[0]))
                         new_active_ranges.append((group_x[1], active_range[1]))
                         was_combined = True
@@ -326,7 +246,7 @@ def part2(input: str) -> int:
 
             # group_x totally outside of active_range -> add it
             if not was_combined:
-                print("ADD NEW")
+                debug("ADD NEW")
                 new_active_ranges.append(group_x)
 
             active_ranges = new_active_ranges
