@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/32-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/34-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,24 +9,24 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	✓ ✓ 	 [0.0012, 0.008]
-Day 2:	✓ ✓ 	 [0.0005, 0.0006]
-Day 3:	✓ ✓ 	 [0.0056, 0.003]
-Day 4:	✓ ✓ 	 [0.0012, 0.0012]
-Day 5:	✓ ✓ 	 [0.0002, 0.0013]
+Day 1:	✓ ✓ 	 [0.001, 0.0064]
+Day 2:	✓ ✓ 	 [0.0004, 0.0005]
+Day 3:	✓ ✓ 	 [0.0045, 0.0025]
+Day 4:	✓ ✓ 	 [0.0008, 0.0009]
+Day 5:	✓ ✓ 	 [0.0002, 0.001]
 Day 6:	✓ ✓ 	 [0.0, 0.0]
-Day 7:	✓ ✓ 	 [0.0176, 0.0243]
-Day 8:	✓ ✓ 	 [0.0034, 0.0205]
-Day 9:	✓ ✓ 	 [0.0033, 0.0033]
-Day 10:	✓ ✓ 	 [0.0156, 0.1614]
-Day 11:	✓ ✓ 	 [0.0099, 0.0769]
-Day 12:	✓ ✓ 	 [0.0273, 0.6667]
-Day 13:	✓ ✓ 	 [0.0016, 0.0015]
-Day 14:	✓ ✓ 	 [0.0014, 0.6438]
-Day 15:	✓ ✓ 	 [0.0029, 0.0042]
-Day 16:	✓ ✓ 	 [0.0119, 0.8791]
+Day 7:	✓ ✓ 	 [0.0128, 0.0167]
+Day 8:	✓ ✓ 	 [0.0023, 0.0143]
+Day 9:	✓ ✓ 	 [0.0023, 0.0023]
+Day 10:	✓ ✓ 	 [0.0108, 0.1136]
+Day 11:	✓ ✓ 	 [0.0067, 0.0538]
+Day 12:	✓ ✓ 	 [0.0184, 0.4697]
+Day 13:	✓ ✓ 	 [0.0011, 0.001]
+Day 14:	✓ ✓ 	 [0.001, 0.4582]
+Day 15:	✓ ✓ 	 [0.002, 0.003]
+Day 16:	✓ ✓ 	 [0.0085, 0.6239]
 Day 17:	- - 	 [None, None]
-Day 18:	- - 	 [None, None]
+Day 18:	✓ ✓ 	 [0.0414, 0.0015]
 Day 19:	- - 	 [None, None]
 Day 20:	- - 	 [None, None]
 Day 21:	- - 	 [None, None]
@@ -35,8 +35,8 @@ Day 23:	- - 	 [None, None]
 Day 24:	- - 	 [None, None]
 Day 25:	- - 	 [None, None]
 
-Results: 32 ✓, 0 x, 0 ?, 18 -, 0 s
-Total time (s): 2.5994
+Results: 34 ✓, 0 x, 0 ?, 16 -, 0 s
+Total time (s): 1.8835
 ```
 
 ✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented, s = Skipped
@@ -106,3 +106,5 @@ make good       # runs lint, pretty
   * Quickly got through Days 13-16 part 1's so I have access to part 2's for the flight back in case I'm not too sleepy 😪.
   * Day 14: Part 2 solved by detecting loops and finding equivalent position via modulo.
   * Day 16: Performance improved reusing previous results. `cast_light` returns a graph of lights and downstream lights which we can optionally take as an argument as well and build upon.
+* 12/17
+  * Day 18: Part 1 solved actually materializing the grid and doing a flood fill of from the exterior of a bounded zone. Part 2 kicked my jet lagged butt. I realized somewhat quickly that I could treat the grid as an integration of slices which only requires me to keep track of boundaries and then calculate the area as a set of rectangles. Debugging off by one errors due to the grid and other geometry corner cases was a pain without good visualization tools and the real inputs being very large.
