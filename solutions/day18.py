@@ -93,6 +93,7 @@ def part1(input: str) -> int:
 
 
 def part2(input: str) -> int:
+    # 18
     lines = [
         ("R", 1),
         ("U", 2),
@@ -101,6 +102,17 @@ def part2(input: str) -> int:
         ("L", 3),
         ("U", 2),
     ]
+
+    # 18
+    lines = [
+        ("R", 4),
+        ("D", 3),
+        ("L", 2),
+        ("U", 1),
+        ("L", 2),
+        ("U", 2),
+    ]
+
     # TODO: use parse_input_p2
     lines = parse_input_p2(input)
     # print(lines)
@@ -190,11 +202,15 @@ def part2(input: str) -> int:
                     was_combined = True
                     continue
                 if group_x[0] == active_range[0]:
+                    # special case for grid arithmatic. add this line to the area
+                    area += group_x[1] - group_x[0]
                     print("SHRINK")
                     new_active_ranges.append((group_x[1], active_range[1]))
                     was_combined = True
                     continue
                 if group_x[1] == active_range[1]:
+                    # special case for grid arithmatic. add this line to the area
+                    area += group_x[1] - group_x[0]
                     print("SHRINK")
                     new_active_ranges.append((active_range[0], group_x[0]))
                     was_combined = True
@@ -202,6 +218,8 @@ def part2(input: str) -> int:
 
                 # is group_x within active_range, split it into 2
                 if group_x[0] > active_range[0] and group_x[1] < active_range[1]:
+                    # special case for grid arithmatic. add this line to the area
+                    area += group_x[1] - group_x[0] - 1
                     print("SPLIT")
                     new_active_ranges.append((active_range[0], group_x[0]))
                     new_active_ranges.append((group_x[1], active_range[1]))
