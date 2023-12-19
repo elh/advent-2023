@@ -1,19 +1,15 @@
 from typing import Any
-
-
-def parse_input(input: str) -> list[list[int]]:
-    return [[int(char) for char in line] for line in input.split("\n")]
-
-
-def print_grid(grid: list[list[Any]]) -> None:
-    for row in grid:
-        print(" ".join(["∞" if char == float("inf") else str(char) for char in row]))
-
+import pprint
+import heapq
 
 Loc = tuple[int, int]  # (y, x)
 Dir = tuple[int, int]  # (dy, dx) where dy, dx ∈ {-1, 0, 1}
 Pos = tuple[Dir, int]  # (dir, steps) where steps is # of steps in current dir
 State = tuple[Loc, Pos]
+
+
+def parse_input(input: str) -> list[list[int]]:
+    return [[int(char) for char in line] for line in input.split("\n")]
 
 
 def print_distances(distances: list[list[dict[Pos, int | float]]]) -> None:
@@ -36,29 +32,28 @@ def shortest_path(
     ]
     distances[0][1] = {((0, 1), 1): grid[0][1]}
     distances[1][0] = {((1, 0), 1): grid[1][0]}
-    # pprint.pprint(distances)
 
-    # visited: set[State] = set()
-    fringe: list[State] = [
-        ((0, 1), ((0, 1), 1)),
-        ((1, 0), ((1, 0), 1)),
-    ]
+    # TODO: perf: skip visited states. unclear how to safely skip states in our traversal
+    fringe = []
+    heapq.heappush(fringe, (grid[0][1], ((0, 1), ((0, 1), 1))))
+    heapq.heappush(fringe, (grid[1][0], ((1, 0), ((1, 0), 1))))
+
     while fringe:
-        # pop from the front for BFS. conservative
-        # TODO: A*?
-        cur_state = fringe.pop(0)
+        # TODO: perf: A*?
+        _, cur_state = heapq.heappop(fringe)
         # print("popped:", cur_state)
         # print_distances(distances)
         (y, x), cur_pos = cur_state
         (prev_dy, prev_dx), step_count = cur_pos
 
+        # reached end
+        if y == len(grid) - 1 and x == len(grid[0]) - 1:
+            break
+
         for dy, dx in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             new_y, new_x = y + dy, x + dx
             next_step_count = step_count + 1 if (dy, dx) == (prev_dy, prev_dx) else 1
-            next_pos = (
-                (dy, dx),
-                next_step_count,
-            )
+            next_pos = ((dy, dx), next_step_count)
             next_state = ((new_y, new_x), next_pos)
 
             # disallow walking off the grid
@@ -83,25 +78,19 @@ def shortest_path(
                     continue
 
             # do not add to fringe if child distance did not improve distances
-            prior = (
+            new_distance = distances[y][x][cur_pos] + grid[new_y][new_x]
+            prior_distance = (
                 distances[new_y][new_x][next_pos]
                 if next_pos in distances[new_y][new_x]
                 else float("inf")
             )
-            distances[new_y][new_x][next_pos] = min(
-                prior,
-                distances[y][x][cur_pos] + grid[new_y][new_x],
-            )
-            if distances[new_y][new_x][next_pos] == prior:
+            distances[new_y][new_x][next_pos] = min(prior_distance, new_distance)
+            if distances[new_y][new_x][next_pos] == prior_distance:
                 continue
 
-            # TODO: not sure when to skip in this bastardized dijkstra's
-            # dedupe
-            # if next_state in visited:
-            #     continue
-            # visited.add(next_state)
-            fringe.append(next_state)
+            heapq.heappush(fringe, (new_distance, next_state))
 
+    # print_distances(distances)
     return int(min(distances[-1][-1].values()))
 
 

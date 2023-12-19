@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/36-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/38-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,25 +9,25 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	✓ ✓ 	 [0.001, 0.0059]
+Day 1:	✓ ✓ 	 [0.0011, 0.0071]
 Day 2:	✓ ✓ 	 [0.0004, 0.0005]
-Day 3:	✓ ✓ 	 [0.0044, 0.0023]
-Day 4:	✓ ✓ 	 [0.0008, 0.001]
-Day 5:	✓ ✓ 	 [0.0001, 0.001]
+Day 3:	✓ ✓ 	 [0.0048, 0.0026]
+Day 4:	✓ ✓ 	 [0.0009, 0.0009]
+Day 5:	✓ ✓ 	 [0.0002, 0.001]
 Day 6:	✓ ✓ 	 [0.0, 0.0]
-Day 7:	✓ ✓ 	 [0.0129, 0.0165]
-Day 8:	✓ ✓ 	 [0.0023, 0.0141]
-Day 9:	✓ ✓ 	 [0.0023, 0.0022]
-Day 10:	✓ ✓ 	 [0.0109, 0.1138]
-Day 11:	✓ ✓ 	 [0.0073, 0.0532]
-Day 12:	✓ ✓ 	 [0.0184, 0.4743]
+Day 7:	✓ ✓ 	 [0.0135, 0.0172]
+Day 8:	✓ ✓ 	 [0.0024, 0.0143]
+Day 9:	✓ ✓ 	 [0.0022, 0.0023]
+Day 10:	✓ ✓ 	 [0.0108, 0.1113]
+Day 11:	✓ ✓ 	 [0.0067, 0.0529]
+Day 12:	✓ ✓ 	 [0.0171, 0.4284]
 Day 13:	✓ ✓ 	 [0.001, 0.001]
-Day 14:	✓ ✓ 	 [0.0009, 0.4569]
-Day 15:	✓ ✓ 	 [0.0022, 0.0032]
-Day 16:	✓ ✓ 	 [0.0089, 0.6233]
-Day 17:	- - 	 [None, None]
-Day 18:	✓ ✓ 	 [0.0389, 0.0015]
-Day 19:	✓ ✓ 	 [0.001, 0.0039]
+Day 14:	✓ ✓ 	 [0.0009, 0.453]
+Day 15:	✓ ✓ 	 [0.002, 0.0029]
+Day 16:	✓ ✓ 	 [0.0084, 0.6002]
+Day 17:	✓ ✓ 	 [0.6249, 2.4468]
+Day 18:	✓ ✓ 	 [0.0406, 0.0019]
+Day 19:	✓ ✓ 	 [0.0012, 0.0041]
 Day 20:	- - 	 [None, None]
 Day 21:	- - 	 [None, None]
 Day 22:	- - 	 [None, None]
@@ -35,8 +35,8 @@ Day 23:	- - 	 [None, None]
 Day 24:	- - 	 [None, None]
 Day 25:	- - 	 [None, None]
 
-Results: 36 ✓, 0 x, 0 ?, 14 -, 0 s
-Total time (s): 1.8883
+Results: 38 ✓, 0 x, 0 ?, 12 -, 0 s
+Total time (s): 4.8875
 ```
 
 ✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented, s = Skipped
@@ -110,3 +110,4 @@ make good       # runs lint, pretty
   * Day 18: Part 1 solved actually materializing the grid and doing a flood fill of from the exterior of a bounded zone. Part 2 kicked my jet lagged butt. I realized somewhat quickly that I could treat the grid as an integration of slices which only requires me to keep track of boundaries and then calculate the area as a set of rectangles. Debugging off by one errors due to the grid and other geometry corner cases was a pain without good visualization tools and the real inputs being very large. UPDATE: Pick’s theorem...
 * 12/18
   * Day 19: Part 2 solved by working backwards: identify each assignment to "A" and with a range of possible values, tighten it going backwards through the condition graph.
+  * Day 17: I got tripped up figuring out how to encode "number of steps in current direction" into the graph state for dijkstra's. I encode the current location, the previous direction I came from, and the number of steps in that direction. Slowest part 2 so far.
