@@ -1,10 +1,16 @@
+from functools import reduce
+import operator
+
+
 def parse_input(input: str):
     halves = input.split("\n\n")
 
     workflows = {}
     for line in halves[0].split("\n"):
+        if line.startswith("#"):
+            continue
         name = line.split("{")[0]
-        rules = []
+        rules: list[tuple] = []
         for rule in line.split("{")[1].split("}")[0].split(","):
             parts = rule.split(":")
             if len(parts) == 1:
@@ -24,9 +30,9 @@ def parse_input(input: str):
                     raise Exception("Unknown condition")
         workflows[name] = rules
 
-    parts = []
+    values: list[dict[str, int]] = []
     for part in halves[1].split("\n"):
-        parts.append(
+        values.append(
             {
                 k: int(v)
                 for k, v in [
@@ -36,7 +42,19 @@ def parse_input(input: str):
             }
         )
 
-    return {"workflows": workflows, "parts": parts}
+    return {"workflows": workflows, "values": values}
+
+
+def workflow_pointers(workflows):
+    pointers = {}
+    for name, rules in workflows.items():
+        for i, rule in enumerate(rules):
+            if rule[1] == "A" or rule[1] == "R":
+                continue
+            if rule[1] not in pointers:
+                pointers[rule[1]] = []
+            pointers[rule[1]].append((name, i))
+    return pointers
 
 
 def process_part(workflows, part):
@@ -56,12 +74,72 @@ def process_part(workflows, part):
                     break
 
 
+def product(l: list) -> int:
+    return reduce(operator.mul, l, 1)
+
+
+default_ranges = {
+    "x": (1, 4000),
+    "m": (1, 4000),
+    "a": (1, 4000),
+    "s": (1, 4000),
+}
+
+
+def count_combos(workflows, workflow_ptrs, wf_name, rule_idx, ranges):
+    def matches(ranges, rule):
+        ranges = ranges.copy()
+        if rule[0] is None:
+            return ranges
+        elif rule[0][0] == ">":
+            var, val = rule[0][1], rule[0][2]
+            ranges[var] = (max(ranges[var][0], val + 1), ranges[var][1])
+            return ranges
+        elif rule[0][0] == "<":
+            var, val = rule[0][1], rule[0][2]
+            ranges[var] = (ranges[var][0], min(ranges[var][1], val - 1))
+            return ranges
+        else:
+            raise Exception("Unknown condition")
+
+    def not_matches(ranges, rule):
+        ranges = ranges.copy()
+        if rule[0][0] == ">":
+            var, val = rule[0][1], rule[0][2]
+            ranges[var] = (ranges[var][0], min(ranges[var][1], val))
+            return ranges
+        elif rule[0][0] == "<":
+            var, val = rule[0][1], rule[0][2]
+            ranges[var] = (max(ranges[var][0], val), ranges[var][1])
+            return ranges
+        else:
+            raise Exception("Unknown condition or no match")
+
+    cur_workflow = workflows[wf_name]
+    ranges = matches(ranges, cur_workflow[rule_idx])
+    for i in reversed(range(rule_idx)):
+        ranges = not_matches(ranges, cur_workflow[i])
+
+    if wf_name == "in":
+        counts = []
+        for v in ranges.values():
+            counts.append(v[1] - v[0] + 1)
+        return product(counts)
+    else:
+        total = 0
+        if wf_name in workflow_ptrs:
+            for parent_wf, rule_idx in workflow_ptrs[wf_name]:
+                total += count_combos(
+                    workflows, workflow_ptrs, parent_wf, rule_idx, ranges
+                )
+        return total
+
+
 def part1(input: str) -> int:
     config = parse_input(input)
-
     accepted = [
         part
-        for part in config["parts"]
+        for part in config["values"]
         if process_part(config["workflows"], part) == "A"
     ]
 
@@ -74,8 +152,14 @@ def part1(input: str) -> int:
 
 
 def part2(input: str) -> int:
-    data = parse_input(input)
-    _ = data
-    # print(data)
+    config = parse_input(input)
+    workflows = config["workflows"]
+    workflow_ptrs = workflow_pointers(workflows)
 
-    return 0
+    # work backwards. find all "A"s and reverse to construct the possible ranges
+    total = 0
+    for name, rules in workflows.items():
+        for i, rule in enumerate(rules):
+            if rule[1] == "A":
+                total += count_combos(workflows, workflow_ptrs, name, i, default_ranges)
+    return total

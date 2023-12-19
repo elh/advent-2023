@@ -126,18 +126,18 @@ def part2(input: str) -> int:
             else:
                 return 0
 
-    grouped = []  # list of tuples (y, list of x pairs)
+    grouped_tmp: list[tuple[int, list]] = []  # list of tuples (y, list of x pairs)
     sorted_corners = sorted(corners, key=cmp_to_key(compare_corners))
     for corner in sorted_corners:
-        if not grouped or grouped[-1][0] != corner[0]:
-            grouped.append((corner[0], []))
-        grouped[-1][1].append(corner[1])
-    for _, group_xs in grouped:
+        if not grouped_tmp or grouped_tmp[-1][0] != corner[0]:
+            grouped_tmp.append((corner[0], []))
+        grouped_tmp[-1][1].append(corner[1])
+    for _, group_xs in grouped_tmp:
         if len(group_xs) != len(set(group_xs)):
             raise ValueError("Duplicate x coords")
         if len(group_xs) % 2 != 0:
             raise ValueError("Uneven number of x coords")
-    grouped = [(y, list_to_pairs(xs)) for y, xs in grouped]  # hacky
+    grouped = [(y, list_to_pairs(xs)) for y, xs in grouped_tmp]  # hacky
     debug(grouped)
 
     area = 0

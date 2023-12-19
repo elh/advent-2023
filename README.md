@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/34-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/36-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,25 +9,25 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	✓ ✓ 	 [0.001, 0.0064]
+Day 1:	✓ ✓ 	 [0.001, 0.0059]
 Day 2:	✓ ✓ 	 [0.0004, 0.0005]
-Day 3:	✓ ✓ 	 [0.0045, 0.0025]
-Day 4:	✓ ✓ 	 [0.0008, 0.0009]
-Day 5:	✓ ✓ 	 [0.0002, 0.001]
+Day 3:	✓ ✓ 	 [0.0044, 0.0023]
+Day 4:	✓ ✓ 	 [0.0008, 0.001]
+Day 5:	✓ ✓ 	 [0.0001, 0.001]
 Day 6:	✓ ✓ 	 [0.0, 0.0]
-Day 7:	✓ ✓ 	 [0.0128, 0.0167]
-Day 8:	✓ ✓ 	 [0.0023, 0.0143]
-Day 9:	✓ ✓ 	 [0.0023, 0.0023]
-Day 10:	✓ ✓ 	 [0.0108, 0.1136]
-Day 11:	✓ ✓ 	 [0.0067, 0.0538]
-Day 12:	✓ ✓ 	 [0.0184, 0.4697]
-Day 13:	✓ ✓ 	 [0.0011, 0.001]
-Day 14:	✓ ✓ 	 [0.001, 0.4582]
-Day 15:	✓ ✓ 	 [0.002, 0.003]
-Day 16:	✓ ✓ 	 [0.0085, 0.6239]
+Day 7:	✓ ✓ 	 [0.0129, 0.0165]
+Day 8:	✓ ✓ 	 [0.0023, 0.0141]
+Day 9:	✓ ✓ 	 [0.0023, 0.0022]
+Day 10:	✓ ✓ 	 [0.0109, 0.1138]
+Day 11:	✓ ✓ 	 [0.0073, 0.0532]
+Day 12:	✓ ✓ 	 [0.0184, 0.4743]
+Day 13:	✓ ✓ 	 [0.001, 0.001]
+Day 14:	✓ ✓ 	 [0.0009, 0.4569]
+Day 15:	✓ ✓ 	 [0.0022, 0.0032]
+Day 16:	✓ ✓ 	 [0.0089, 0.6233]
 Day 17:	- - 	 [None, None]
-Day 18:	✓ ✓ 	 [0.0414, 0.0015]
-Day 19:	- - 	 [None, None]
+Day 18:	✓ ✓ 	 [0.0389, 0.0015]
+Day 19:	✓ ✓ 	 [0.001, 0.0039]
 Day 20:	- - 	 [None, None]
 Day 21:	- - 	 [None, None]
 Day 22:	- - 	 [None, None]
@@ -35,8 +35,8 @@ Day 23:	- - 	 [None, None]
 Day 24:	- - 	 [None, None]
 Day 25:	- - 	 [None, None]
 
-Results: 34 ✓, 0 x, 0 ?, 16 -, 0 s
-Total time (s): 1.8835
+Results: 36 ✓, 0 x, 0 ?, 14 -, 0 s
+Total time (s): 1.8883
 ```
 
 ✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented, s = Skipped
@@ -73,7 +73,7 @@ make pretty     # black
 make good       # runs lint, pretty
 ```
 
-## Log
+## Log (contains spoilers)
 
 * 12/1
   * Wasn't sure if I would do it this year but I can't resist challenging friends to do it. Starting a private leaderboard with a bounty. I don't think I will have as much time as I did last year learning Clojure so opting for Python 🐍. Started on a flight to Taiwan for family 🇹🇼.
@@ -107,4 +107,6 @@ make good       # runs lint, pretty
   * Day 14: Part 2 solved by detecting loops and finding equivalent position via modulo.
   * Day 16: Performance improved reusing previous results. `cast_light` returns a graph of lights and downstream lights which we can optionally take as an argument as well and build upon.
 * 12/17
-  * Day 18: Part 1 solved actually materializing the grid and doing a flood fill of from the exterior of a bounded zone. Part 2 kicked my jet lagged butt. I realized somewhat quickly that I could treat the grid as an integration of slices which only requires me to keep track of boundaries and then calculate the area as a set of rectangles. Debugging off by one errors due to the grid and other geometry corner cases was a pain without good visualization tools and the real inputs being very large.
+  * Day 18: Part 1 solved actually materializing the grid and doing a flood fill of from the exterior of a bounded zone. Part 2 kicked my jet lagged butt. I realized somewhat quickly that I could treat the grid as an integration of slices which only requires me to keep track of boundaries and then calculate the area as a set of rectangles. Debugging off by one errors due to the grid and other geometry corner cases was a pain without good visualization tools and the real inputs being very large. UPDATE: Pick’s theorem...
+* 12/18
+  * Day 19: Part 2 solved by working backwards: identify each assignment to "A" and with a range of possible values, tighten it going backwards through the condition graph.
