@@ -24,7 +24,11 @@ def print_distances(distances: list[list[dict[Pos, int | float]]]) -> None:
         print()
 
 
-def shortest_path(grid: list[list[int]]) -> int:
+def shortest_path(
+    grid: list[list[int]],
+    min_steps_in_dir: int | None,
+    max_steps_in_dir: int | None,
+) -> int:
     # seed 2 starting squares. this avoids complications with turning from (0,0)
     # 2d grid of dicts from Pos to dijkstra distance
     distances: list[list[dict[Pos, int | float]]] = [
@@ -50,9 +54,10 @@ def shortest_path(grid: list[list[int]]) -> int:
 
         for dy, dx in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             new_y, new_x = y + dy, x + dx
+            next_step_count = step_count + 1 if (dy, dx) == (prev_dy, prev_dx) else 1
             next_pos = (
                 (dy, dx),
-                step_count + 1 if (dy, dx) == (prev_dy, prev_dx) else 1,
+                next_step_count,
             )
             next_state = ((new_y, new_x), next_pos)
 
@@ -62,9 +67,20 @@ def shortest_path(grid: list[list[int]]) -> int:
             # disallow reversal
             if (dy, dx) == (-prev_dy, -prev_dx):
                 continue
-            # disallow current dir if we are on step_count 3
-            if (dy, dx) == (prev_dy, prev_dx) and step_count == 3:
-                continue
+            # disallow current dir if greater than max_steps_in_dir
+            if max_steps_in_dir is not None:
+                if (dy, dx) == (
+                    prev_dy,
+                    prev_dx,
+                ) and next_step_count > max_steps_in_dir:
+                    continue
+            # disallow changing dir if less than min_steps_in_dir
+            if min_steps_in_dir is not None:
+                if (dy, dx) != (
+                    prev_dy,
+                    prev_dx,
+                ) and step_count < min_steps_in_dir:
+                    continue
 
             # do not add to fringe if child distance did not improve distances
             prior = (
@@ -79,7 +95,7 @@ def shortest_path(grid: list[list[int]]) -> int:
             if distances[new_y][new_x][next_pos] == prior:
                 continue
 
-            # TODO: not sure when to skip using visited. this is an odd construction of dijkstra's
+            # TODO: not sure when to skip in this bastardized dijkstra's
             # dedupe
             # if next_state in visited:
             #     continue
@@ -91,12 +107,9 @@ def shortest_path(grid: list[list[int]]) -> int:
 
 def part1(input: str) -> int:
     grid = parse_input(input)
-    return shortest_path(grid)
+    return shortest_path(grid, None, 3)
 
 
 def part2(input: str) -> int:
-    raise Exception("Not implemented yet")
-    data = parse_input(input)
-    _ = data
-
-    return 0
+    grid = parse_input(input)
+    return shortest_path(grid, 4, 10)
