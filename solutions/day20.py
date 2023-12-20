@@ -1,7 +1,11 @@
 import pprint
+import copy
+from functools import reduce
+import operator
 
 ITERATIONS = 1000
 VERBOSE = False
+MAX_ITERATIONS = 100000
 
 
 def parse_modules(input: str):
@@ -110,5 +114,67 @@ def part1(input: str) -> int:
     return low_pulse_count * high_pulse_count
 
 
+"""
+Note: Part 2 solution relies on an observation about *my* input which may not be
+general to all inputs and certainly not to all possible module graphs:
+
+The module graph has isolated subgraphs that are only connected at the source
+and sink: "broadcaster" and "rx".
+"""
+
+
+def product(l: list) -> int:
+    return reduce(operator.mul, l, 1)
+
+
+def extract_subgraph(modules, parent):
+    modules = copy.deepcopy(modules)
+
+    keepers = {"broadcaster", parent}
+    fringe = [parent]
+    while fringe:
+        name = fringe.pop()
+        if name not in modules:
+            continue
+        for dest in modules[name]["dests"]:
+            if dest not in keepers:
+                keepers.add(dest)
+                fringe.append(dest)
+
+    for name in list(modules.keys()):
+        if name not in keepers:
+            del modules[name]
+
+    for module in modules.values():
+        module["dests"] = [dest for dest in module["dests"] if dest in keepers]
+        if "remembered" in module:
+            module["remembered"] = {
+                k: v for k, v in module["remembered"].items() if k in keepers
+            }
+
+    return modules
+
+
 def part2(input: str) -> int:
-    raise Exception("Not implemented yet")
+    modules = parse_modules(input)
+
+    roots = modules["broadcaster"]["dests"]
+    subgraphs = [extract_subgraph(modules, root) for root in roots]
+    cycle_lens = []
+    for subgraph in subgraphs:
+        count = 0
+        while True:
+            count += 1
+            if count > MAX_ITERATIONS:
+                raise Exception("too many iterations", MAX_ITERATIONS)
+            pulses = press_button(subgraph)
+            found = False
+            for pulse in pulses:
+                if pulse[1] == "low" and pulse[2] == "rx":
+                    cycle_lens.append(count)
+                    found = True
+                    break
+            if found:
+                break
+
+    return product(cycle_lens)

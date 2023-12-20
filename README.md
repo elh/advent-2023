@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/38-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/40-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,37 +9,37 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	＊ ＊ 	 [0.0011, 0.0068]
+Day 1:	＊ ＊ 	 [0.0011, 0.0067]
 Day 2:	＊ ＊ 	 [0.0004, 0.0005]
-Day 3:	＊ ＊ 	 [0.0047, 0.0024]
+Day 3:	＊ ＊ 	 [0.0047, 0.0025]
 Day 4:	＊ ＊ 	 [0.0009, 0.0009]
 Day 5:	＊ ＊ 	 [0.0002, 0.001]
 Day 6:	＊ ＊ 	 [0.0, 0.0]
-Day 7:	＊ ＊ 	 [0.0134, 0.0172]
-Day 8:	＊ ＊ 	 [0.0024, 0.0144]
-Day 9:	＊ ＊ 	 [0.0025, 0.0023]
-Day 10:	＊ ＊ 	 [0.0107, 0.1106]
-Day 11:	＊ ＊ 	 [0.0069, 0.0521]
-Day 12:	＊ ＊ 	 [0.0178, 0.434]
-Day 13:	＊ ＊ 	 [0.0011, 0.001]
-Day 14:	＊ ＊ 	 [0.001, 0.4518]
-Day 15:	＊ ＊ 	 [0.0022, 0.0031]
-Day 16:	＊ ＊ 	 [0.0086, 0.6156]
-Day 17:	＊ ＊ 	 [0.6323, 2.3799]
-Day 18:	＊ ＊ 	 [0.0392, 0.0015]
-Day 19:	＊ ＊ 	 [0.0011, 0.0039]
-Day 20:	－ － 	 [None, None]
+Day 7:	＊ ＊ 	 [0.0137, 0.0171]
+Day 8:	＊ ＊ 	 [0.0023, 0.014]
+Day 9:	＊ ＊ 	 [0.0024, 0.0023]
+Day 10:	＊ ＊ 	 [0.0105, 0.109]
+Day 11:	＊ ＊ 	 [0.0067, 0.0522]
+Day 12:	＊ ＊ 	 [0.0173, 0.4435]
+Day 13:	＊ ＊ 	 [0.001, 0.001]
+Day 14:	＊ ＊ 	 [0.0009, 0.44]
+Day 15:	＊ ＊ 	 [0.0021, 0.0029]
+Day 16:	＊ ＊ 	 [0.0083, 0.6014]
+Day 17:	＊ ＊ 	 [0.6079, 2.2301]
+Day 18:	＊ ＊ 	 [0.0394, 0.0015]
+Day 19:	＊ ＊ 	 [0.0011, 0.004]
+Day 20:	＊ ＊ 	 [0.0179, 0.0718]
 Day 21:	－ － 	 [None, None]
 Day 22:	－ － 	 [None, None]
 Day 23:	－ － 	 [None, None]
 Day 24:	－ － 	 [None, None]
 Day 25:	－ － 	 [None, None]
 
-Results: 38 ＊, 0 Ｘ, 0 ?, 12 －, 0 s
-Total time (s): 4.8455
+Results: 40 ＊, 0 Ｘ, 0 ?, 10 －, 0 s
+Total time (s): 4.7411
 ```
 
-✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented, s = Skipped
+＊ = Correct, Ｘ = Incorrect, ? = No answer provided, － = Unimplemented, s = Skipped
 
 ## Usage
 
@@ -104,10 +104,12 @@ make good       # runs lint, pretty
   * Wrapped up an incredible wedding in Jaipur 🎊!
   * Day 12: Part 2 solved with DP by treating `s[1:]` as the subproblem and using the `@cache` decorator.
   * Quickly got through Days 13-16 part 1's so I have access to part 2's for the flight back in case I'm not too sleepy 😪.
-  * Day 14: Part 2 solved by detecting loops and finding equivalent position via modulo.
+  * Day 14: Part 2 solved by detecting loops and finding equivalent positions via modulo.
   * Day 16: Performance improved reusing previous results. `cast_light` returns a graph of lights and downstream lights which we can optionally take as an argument as well and build upon.
 * 12/17
-  * Day 18: Part 1 solved actually materializing the grid and doing a flood fill of from the exterior of a bounded zone. Part 2 kicked my jet lagged butt. I realized somewhat quickly that I could treat the grid as an integration of scanline slices which only requires me to keep track of boundaries and then sum up the incremental areas. Debugging off by one errors due to the grid and other geometry corner cases was a pain without good visualization tools and the real inputs being very large. UPDATE: TIL of Pick’s theorem...
+  * Day 18: Part 1 solved actually materializing the grid and doing a flood fill from the exterior of a bounded zone. Part 2 kicked my jet lagged butt. I realized somewhat quickly that I could treat the grid as an integration of scanline slices which only requires me to keep track of boundaries and then sum up the incremental areas. Debugging off-by-one errors due to the grid and other geometry corner cases was a pain without good visualization tools and the real inputs being very large. UPDATE: TIL of Pick’s theorem...
 * 12/18
   * Day 19: Part 2 solved by working backwards: identify each assignment to "A" and with a range of possible values, tighten it going backwards through the condition graph.
   * Day 17: I got tripped up figuring out how to encode "number of steps in current direction" into the graph state for Dijkstra's. I encode the current location, the previous direction I came from, and the number of steps in that direction. Slowest part 2 so far.
+* 12/19
+  * Day 20: Part 2 solved by learning a lesson from previous days and investing in visualization tools early. I was quite surprised to find that my input graphs were highly isolated and this turned into another LCM of cycle lengths. Because I could imagine graphs that were far more entangled (like hash functions) and we had a similar puzzle this year, I didn't expect this approach to be applicable. I'm a little disappointed.

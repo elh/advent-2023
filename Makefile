@@ -3,7 +3,7 @@ all:
 
 .PHONY: lint
 lint:
-	@mypy .
+	@mypy --ignore-missing-imports .
 	@ruff check .
 
 .PHONY: pretty
