@@ -83,10 +83,10 @@ def press_button(modules: dict) -> list[Pulse]:
                 pulses.append((pulse_to, new_highlow, dest))
         elif pulse_to_module["type"] == "conj":
             pulse_to_module["remembered"][pulse_from] = pulse_highlow
-            if "low" in pulse_to_module["remembered"].values():
-                new_highlow = "high"
-            else:
+            if "low" not in pulse_to_module["remembered"].values():
                 new_highlow = "low"
+            else:
+                new_highlow = "high"
             for dest in pulse_to_module["dests"]:
                 pulses.append((pulse_to, new_highlow, dest))
         elif pulse_to_module["type"] == "broadcaster":
