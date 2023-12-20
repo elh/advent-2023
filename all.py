@@ -3,7 +3,7 @@ import importlib
 import json
 import time
 
-GREEN = "\033[92m"
+YELLOW = "\033[93m"
 RED = "\033[91m"
 ENDC = "\033[0m"
 
@@ -40,10 +40,10 @@ def main():
     total_dur = 0
     all_durs = {}
     counts = {
-        "✓": 0,  # Correct
-        "x": 0,  # Incorrect
+        "＊": 0,  # Correct
+        "Ｘ": 0,  # Incorrect
         "?": 0,  # No answer provided
-        "-": 0,  # Unimplemented
+        "－": 0,  # Unimplemented
         "s": 0,  # Skipped
     }
     for day in range(1, 26):
@@ -62,8 +62,8 @@ def main():
                 input_file = "inputs/" + str(day).zfill(2) + ".txt"
                 input = open(input_file, "r").read().rstrip("\n")
             except Exception:
-                print("-", end=" ")
-                counts["-"] += 1
+                print("－", end=" ")
+                counts["－"] += 1
                 durs.append(None)
                 continue
 
@@ -72,8 +72,8 @@ def main():
                 got = fn(input)
                 durs.append(rounded(time.time() - start_t))
             except Exception:
-                print(RED + "x" + ENDC, end=" ")
-                counts["x"] += 1
+                print(RED + "Ｘ" + ENDC, end=" ")
+                counts["Ｘ"] += 1
                 durs.append(rounded(time.time() - start_t))
                 continue
 
@@ -81,8 +81,8 @@ def main():
                 answers = json.load(open("answers.json", "r"))
                 expected = answers[str(day) + "." + str(part)]
                 if str(got) == str(expected):
-                    print(GREEN + "✓" + ENDC, end=" ")
-                    counts["✓"] += 1
+                    print(YELLOW + "＊" + ENDC, end=" ")
+                    counts["＊"] += 1
                 else:
                     print(RED + "x" + ENDC, end=" ")
                     counts["x"] += 1

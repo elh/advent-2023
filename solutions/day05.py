@@ -1,9 +1,3 @@
-"""
-naive solution took ~8s but ~5 with binary search.
-was not worth bothering with but was a good refresher on binary search.
-"""
-
-
 def parse_input(input: str) -> dict:
     initial_values = [int(v) for v in input.split("\n")[0].split(": ")[1].split()]
 

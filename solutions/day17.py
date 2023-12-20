@@ -1,5 +1,4 @@
 from typing import Any
-import pprint
 import heapq
 
 Loc = tuple[int, int]  # (y, x)
@@ -33,8 +32,8 @@ def shortest_path(
     distances[0][1] = {((0, 1), 1): grid[0][1]}
     distances[1][0] = {((1, 0), 1): grid[1][0]}
 
-    # TODO: perf: skip visited states. unclear how to safely skip states in our traversal
-    fringe = []
+    # TODO: perf: skip visited states. unclear if states can be skipped
+    fringe: list[Any] = []  # a list of State. mypy not happy with heapq
     heapq.heappush(fringe, (grid[0][1], ((0, 1), ((0, 1), 1))))
     heapq.heappush(fringe, (grid[1][0], ((1, 0), ((1, 0), 1))))
 

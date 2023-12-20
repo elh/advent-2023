@@ -9,34 +9,34 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	✓ ✓ 	 [0.0011, 0.0071]
-Day 2:	✓ ✓ 	 [0.0004, 0.0005]
-Day 3:	✓ ✓ 	 [0.0048, 0.0026]
-Day 4:	✓ ✓ 	 [0.0009, 0.0009]
-Day 5:	✓ ✓ 	 [0.0002, 0.001]
-Day 6:	✓ ✓ 	 [0.0, 0.0]
-Day 7:	✓ ✓ 	 [0.0135, 0.0172]
-Day 8:	✓ ✓ 	 [0.0024, 0.0143]
-Day 9:	✓ ✓ 	 [0.0022, 0.0023]
-Day 10:	✓ ✓ 	 [0.0108, 0.1113]
-Day 11:	✓ ✓ 	 [0.0067, 0.0529]
-Day 12:	✓ ✓ 	 [0.0171, 0.4284]
-Day 13:	✓ ✓ 	 [0.001, 0.001]
-Day 14:	✓ ✓ 	 [0.0009, 0.453]
-Day 15:	✓ ✓ 	 [0.002, 0.0029]
-Day 16:	✓ ✓ 	 [0.0084, 0.6002]
-Day 17:	✓ ✓ 	 [0.6249, 2.4468]
-Day 18:	✓ ✓ 	 [0.0406, 0.0019]
-Day 19:	✓ ✓ 	 [0.0012, 0.0041]
-Day 20:	- - 	 [None, None]
-Day 21:	- - 	 [None, None]
-Day 22:	- - 	 [None, None]
-Day 23:	- - 	 [None, None]
-Day 24:	- - 	 [None, None]
-Day 25:	- - 	 [None, None]
+Day 1:	＊ ＊ 	 [0.0011, 0.0068]
+Day 2:	＊ ＊ 	 [0.0004, 0.0005]
+Day 3:	＊ ＊ 	 [0.0047, 0.0024]
+Day 4:	＊ ＊ 	 [0.0009, 0.0009]
+Day 5:	＊ ＊ 	 [0.0002, 0.001]
+Day 6:	＊ ＊ 	 [0.0, 0.0]
+Day 7:	＊ ＊ 	 [0.0134, 0.0172]
+Day 8:	＊ ＊ 	 [0.0024, 0.0144]
+Day 9:	＊ ＊ 	 [0.0025, 0.0023]
+Day 10:	＊ ＊ 	 [0.0107, 0.1106]
+Day 11:	＊ ＊ 	 [0.0069, 0.0521]
+Day 12:	＊ ＊ 	 [0.0178, 0.434]
+Day 13:	＊ ＊ 	 [0.0011, 0.001]
+Day 14:	＊ ＊ 	 [0.001, 0.4518]
+Day 15:	＊ ＊ 	 [0.0022, 0.0031]
+Day 16:	＊ ＊ 	 [0.0086, 0.6156]
+Day 17:	＊ ＊ 	 [0.6323, 2.3799]
+Day 18:	＊ ＊ 	 [0.0392, 0.0015]
+Day 19:	＊ ＊ 	 [0.0011, 0.0039]
+Day 20:	－ － 	 [None, None]
+Day 21:	－ － 	 [None, None]
+Day 22:	－ － 	 [None, None]
+Day 23:	－ － 	 [None, None]
+Day 24:	－ － 	 [None, None]
+Day 25:	－ － 	 [None, None]
 
-Results: 38 ✓, 0 x, 0 ?, 12 -, 0 s
-Total time (s): 4.8875
+Results: 38 ＊, 0 Ｘ, 0 ?, 12 －, 0 s
+Total time (s): 4.8455
 ```
 
 ✓ = Correct, x = Incorrect, ? = No answer provided, - = Unimplemented, s = Skipped
@@ -85,7 +85,7 @@ make good       # runs lint, pretty
 * 12/3
   * Day 4: Clean single-pass iterative solution.
 * 12/4
-  * Day 5: Pleased with how fast I solved part 2 by coming up with a well bounded brute force solution. Performance is quite poor though taking 5s and I get a little confused thinking through the ranges. Done shortly after takeoff from Taiwan back to SF 🌉.
+  * Day 5: Pleased with how fast I solved part 2 by coming up with a well bounded brute force solution. Performance is quite poor though taking 5s and I get a little confused thinking through the ranges. Done shortly after takeoff from Taiwan back to SF 🌉. UPDATE: performance improved by only considering boundary values.
 * 12/5
   * Day 6: Heh... I solved it quickly with a janky binary search before looking up the quadratic equation.
 * 12/6
@@ -107,7 +107,7 @@ make good       # runs lint, pretty
   * Day 14: Part 2 solved by detecting loops and finding equivalent position via modulo.
   * Day 16: Performance improved reusing previous results. `cast_light` returns a graph of lights and downstream lights which we can optionally take as an argument as well and build upon.
 * 12/17
-  * Day 18: Part 1 solved actually materializing the grid and doing a flood fill of from the exterior of a bounded zone. Part 2 kicked my jet lagged butt. I realized somewhat quickly that I could treat the grid as an integration of slices which only requires me to keep track of boundaries and then calculate the area as a set of rectangles. Debugging off by one errors due to the grid and other geometry corner cases was a pain without good visualization tools and the real inputs being very large. UPDATE: Pick’s theorem...
+  * Day 18: Part 1 solved actually materializing the grid and doing a flood fill of from the exterior of a bounded zone. Part 2 kicked my jet lagged butt. I realized somewhat quickly that I could treat the grid as an integration of scanline slices which only requires me to keep track of boundaries and then sum up the incremental areas. Debugging off by one errors due to the grid and other geometry corner cases was a pain without good visualization tools and the real inputs being very large. UPDATE: TIL of Pick’s theorem...
 * 12/18
   * Day 19: Part 2 solved by working backwards: identify each assignment to "A" and with a range of possible values, tighten it going backwards through the condition graph.
-  * Day 17: I got tripped up figuring out how to encode "number of steps in current direction" into the graph state for dijkstra's. I encode the current location, the previous direction I came from, and the number of steps in that direction. Slowest part 2 so far.
+  * Day 17: I got tripped up figuring out how to encode "number of steps in current direction" into the graph state for Dijkstra's. I encode the current location, the previous direction I came from, and the number of steps in that direction. Slowest part 2 so far.
