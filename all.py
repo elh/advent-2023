@@ -84,8 +84,8 @@ def main():
                     print(YELLOW + "＊" + ENDC, end=" ")
                     counts["＊"] += 1
                 else:
-                    print(RED + "x" + ENDC, end=" ")
-                    counts["x"] += 1
+                    print(RED + "Ｘ" + ENDC, end=" ")
+                    counts["Ｘ"] += 1
             except Exception:
                 print("?", end=" ")
                 counts["?"] += 1
