@@ -66,11 +66,11 @@ def is_blocked(
             is_blocked = True
             blockers.append(other_brick)
 
-    return is_blocked, blockers[0] if len(blockers) == 1 else None
+    return is_blocked, blockers
 
 
 def drop(bricks: list[list[list[int]]]) -> list[list[list[int]]]:
-    blocking_bricks = set()
+    blocking_bricks = {}  # brick -> bricks it depends on
 
     bricks = copy.deepcopy(bricks)
     for i in range(len(bricks)):
@@ -81,10 +81,13 @@ def drop(bricks: list[list[list[int]]]) -> list[list[list[int]]]:
             # drop the brick until it hits another brick or z = 0
             if brick[0][2] == 1 or brick[1][2] == 1:
                 break
-            am_blocked, solo_blocker = is_blocked(brick, previous_bricks)
+            am_blocked, blockers = is_blocked(brick, previous_bricks)
             if am_blocked:
-                if solo_blocker is not None:
-                    blocking_bricks.add(hashable_brick(solo_blocker))
+                h = hashable_brick(brick)
+                if h not in blocking_bricks:
+                    blocking_bricks[h] = set()
+                for blocker in blockers:
+                    blocking_bricks[h].add(hashable_brick(blocker))
                 break
             brick[0][2] -= 1
             brick[1][2] -= 1
@@ -110,11 +113,16 @@ def part1(input: str) -> int:
     bricks.sort(key=lambda b: min(b[0][2], b[1][2]))
     pprint.pprint(bricks)
 
-    dropped_bricks, solo_blocking_bricks = drop(bricks)
+    dropped_bricks, blocking_bricks = drop(bricks)
     pprint.pprint(dropped_bricks)
-    pprint.pprint(solo_blocking_bricks)
+    pprint.pprint(blocking_bricks)
 
-    return len(bricks) - len(solo_blocking_bricks)
+    solo_blockers = set()
+    for brick, blockers in blocking_bricks.items():
+        if len(blockers) == 1:
+            solo_blockers.add(list(blockers)[0])
+
+    return len(bricks) - len(solo_blockers)
 
 
 def part2(input: str) -> int:
