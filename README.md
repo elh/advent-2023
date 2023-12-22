@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/40-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/43-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,34 +9,34 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	＊ ＊ 	 [0.0011, 0.0067]
+Day 1:	＊ ＊ 	 [0.0012, 0.0068]
 Day 2:	＊ ＊ 	 [0.0004, 0.0005]
 Day 3:	＊ ＊ 	 [0.0047, 0.0025]
 Day 4:	＊ ＊ 	 [0.0009, 0.0009]
 Day 5:	＊ ＊ 	 [0.0002, 0.001]
 Day 6:	＊ ＊ 	 [0.0, 0.0]
-Day 7:	＊ ＊ 	 [0.0137, 0.0171]
-Day 8:	＊ ＊ 	 [0.0023, 0.014]
-Day 9:	＊ ＊ 	 [0.0024, 0.0023]
-Day 10:	＊ ＊ 	 [0.0105, 0.109]
-Day 11:	＊ ＊ 	 [0.0067, 0.0522]
-Day 12:	＊ ＊ 	 [0.0173, 0.4435]
+Day 7:	＊ ＊ 	 [0.0131, 0.017]
+Day 8:	＊ ＊ 	 [0.0024, 0.0141]
+Day 9:	＊ ＊ 	 [0.0023, 0.0022]
+Day 10:	＊ ＊ 	 [0.0108, 0.1108]
+Day 11:	＊ ＊ 	 [0.0066, 0.0517]
+Day 12:	＊ ＊ 	 [0.0173, 0.4577]
 Day 13:	＊ ＊ 	 [0.001, 0.001]
-Day 14:	＊ ＊ 	 [0.0009, 0.44]
-Day 15:	＊ ＊ 	 [0.0021, 0.0029]
-Day 16:	＊ ＊ 	 [0.0083, 0.6014]
-Day 17:	＊ ＊ 	 [0.6079, 2.2301]
-Day 18:	＊ ＊ 	 [0.0394, 0.0015]
-Day 19:	＊ ＊ 	 [0.0011, 0.004]
-Day 20:	＊ ＊ 	 [0.0179, 0.0718]
-Day 21:	－ － 	 [None, None]
-Day 22:	－ － 	 [None, None]
+Day 14:	＊ ＊ 	 [0.0009, 0.4456]
+Day 15:	＊ ＊ 	 [0.0022, 0.003]
+Day 16:	＊ ＊ 	 [0.0081, 0.6099]
+Day 17:	＊ ＊ 	 [0.6351, 2.2841]
+Day 18:	＊ ＊ 	 [0.0396, 0.0015]
+Day 19:	＊ ＊ 	 [0.001, 0.0038]
+Day 20:	＊ ＊ 	 [0.0179, 0.0711]
+Day 21:	＊ Ｘ 	 [0.0968, 0.0]
+Day 22:	＊ ＊ 	 [5.9937, 6.1763]
 Day 23:	－ － 	 [None, None]
 Day 24:	－ － 	 [None, None]
 Day 25:	－ － 	 [None, None]
 
-Results: 40 ＊, 0 Ｘ, 0 ?, 10 －, 0 s
-Total time (s): 4.7411
+Results: 43 ＊, 1 Ｘ, 0 ?, 6 －, 0 s
+Total time (s): 17.1177
 ```
 
 ＊ = Correct, Ｘ = Incorrect, ? = No answer provided, － = Unimplemented, s = Skipped
@@ -113,3 +113,7 @@ make good       # runs lint, pretty
   * Day 17: I got tripped up figuring out how to encode "number of steps in current direction" into the graph state for Dijkstra's. I encode the current location, the previous direction I came from, and the number of steps in that direction. Slowest part 2 so far.
 * 12/19
   * Day 20: Part 2 solved by learning a lesson from previous days and investing in visualization tools early. I was quite surprised to find that my input graphs were highly isolated and this turned into another LCM of cycle lengths. Because I could imagine graphs that were far more entangled (like hash functions) and we had a similar puzzle this year, I didn't expect this approach to be applicable.
+* 12/20
+  * Day 21: Oh man. I was really excited because I had a lot of ideas for Part 2 quite early when the first people were starting to complete it but made a few logical mistakes and was too slow coding. Ended up giving up for the night. I quickly saw that each grid would enter a tick-tocking steady state alternating like a chessboard and that the input was specifically designed to be conducive to diamonds. However, I made some weird assumptions around corners and got a bit lost in the sauce. Thought this also required some input-specific observations like the last puzzle but was much more interesting.
+* 12/21
+  * Day 22: This was fun to implement. A brick blocks another if its x and y ranges overlap and its max z is 1 less than the other's min z. Drop all of the blocks and keep a track of what blocked it. Calculating the chain reaction is then as easy as part 1 just traversing the dependency graph.
