@@ -19,11 +19,17 @@ def print_distances(distances: list[list[dict[Pos, int | float]]]) -> None:
         print()
 
 
+def manhattan(loc1: Loc, loc2: Loc) -> int:
+    return abs(loc1[0] - loc2[0]) + abs(loc1[1] - loc2[1])
+
+
 def shortest_path(
     grid: list[list[int]],
     min_steps_in_dir: int | None,
     max_steps_in_dir: int | None,
 ) -> int:
+    end_loc = (len(grid) - 1, len(grid[0]) - 1)
+
     # seed 2 starting squares. this avoids complications with turning from (0,0)
     # 2d grid of dicts from Pos to dijkstra distance
     distances: list[list[dict[Pos, int | float]]] = [
@@ -34,11 +40,16 @@ def shortest_path(
 
     # TODO: perf: skip visited states. unclear if states can be skipped
     fringe: list[Any] = []  # a list of State. mypy not happy with heapq
-    heapq.heappush(fringe, (grid[0][1], ((0, 1), ((0, 1), 1))))
-    heapq.heappush(fringe, (grid[1][0], ((1, 0), ((1, 0), 1))))
+    heapq.heappush(
+        fringe,
+        (grid[0][1] + manhattan((0, 1), end_loc), ((0, 1), ((0, 1), 1))),
+    )
+    heapq.heappush(
+        fringe,
+        (grid[1][0] + manhattan((1, 0), end_loc), ((1, 0), ((1, 0), 1))),
+    )
 
     while fringe:
-        # TODO: perf: A*?
         _, cur_state = heapq.heappop(fringe)
         # print("popped:", cur_state)
         # print_distances(distances)
@@ -87,10 +98,12 @@ def shortest_path(
             if distances[new_y][new_x][next_pos] == prior_distance:
                 continue
 
-            heapq.heappush(fringe, (new_distance, next_state))
+            heapq.heappush(
+                fringe, (new_distance + manhattan((new_y, new_x), end_loc), next_state)
+            )
 
     # print_distances(distances)
-    return int(min(distances[-1][-1].values()))
+    return int(min(distances[end_loc[0]][end_loc[1]].values()))
 
 
 def part1(input: str) -> int:
