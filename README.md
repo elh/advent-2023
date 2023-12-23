@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/45-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/46-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,34 +9,34 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	＊ ＊ 	 [0.0012, 0.0078]
+Day 1:	＊ ＊ 	 [0.0012, 0.0076]
 Day 2:	＊ ＊ 	 [0.0005, 0.0006]
-Day 3:	＊ ＊ 	 [0.0057, 0.0031]
-Day 4:	＊ ＊ 	 [0.0012, 0.0012]
+Day 3:	＊ ＊ 	 [0.0056, 0.0031]
+Day 4:	＊ ＊ 	 [0.0011, 0.0011]
 Day 5:	＊ ＊ 	 [0.0002, 0.0013]
 Day 6:	＊ ＊ 	 [0.0, 0.0]
-Day 7:	＊ ＊ 	 [0.0177, 0.0249]
-Day 8:	＊ ＊ 	 [0.0035, 0.0207]
-Day 9:	＊ ＊ 	 [0.0033, 0.0032]
-Day 10:	＊ ＊ 	 [0.0161, 0.1606]
-Day 11:	＊ ＊ 	 [0.0098, 0.0751]
-Day 12:	＊ ＊ 	 [0.0255, 0.6889]
+Day 7:	＊ ＊ 	 [0.0178, 0.0242]
+Day 8:	＊ ＊ 	 [0.0033, 0.0204]
+Day 9:	＊ ＊ 	 [0.0035, 0.0033]
+Day 10:	＊ ＊ 	 [0.0162, 0.162]
+Day 11:	＊ ＊ 	 [0.0098, 0.0755]
+Day 12:	＊ ＊ 	 [0.0259, 0.6571]
 Day 13:	＊ ＊ 	 [0.0015, 0.0014]
-Day 14:	＊ ＊ 	 [0.0014, 0.6579]
+Day 14:	＊ ＊ 	 [0.0014, 0.6438]
 Day 15:	＊ ＊ 	 [0.003, 0.0042]
-Day 16:	＊ ＊ 	 [0.0121, 0.8915]
-Day 17:	＊ ＊ 	 [0.8992, 3.4448]
-Day 18:	＊ ＊ 	 [0.0608, 0.0023]
-Day 19:	＊ ＊ 	 [0.0015, 0.0058]
-Day 20:	＊ ＊ 	 [0.0264, 0.1059]
-Day 21:	＊ Ｘ 	 [0.1444, 0.0]
-Day 22:	＊ ＊ 	 [8.6038, 8.704]
-Day 23:	＊ ＊ 	 [5.5836, 20.7191]
+Day 16:	＊ ＊ 	 [0.012, 0.8717]
+Day 17:	＊ ＊ 	 [0.8802, 3.1965]
+Day 18:	＊ ＊ 	 [0.0596, 0.0023]
+Day 19:	＊ ＊ 	 [0.0016, 0.0057]
+Day 20:	＊ ＊ 	 [0.0257, 0.1045]
+Day 21:	＊ ＊ 	 [0.1395, 10.3563]
+Day 22:	＊ ＊ 	 [8.4445, 8.7041]
+Day 23:	＊ ＊ 	 [5.4892, 20.338]
 Day 24:	－ － 	 [None, None]
 Day 25:	－ － 	 [None, None]
 
-Results: 45 ＊, 1 Ｘ, 0 ?, 4 －, 0 s
-Total time (s): 50.9467
+Results: 46 ＊, 0 Ｘ, 0 ?, 4 －, 0 s
+Total time (s): 60.328
 ```
 
 ＊ = Correct, Ｘ = Incorrect, ? = No answer provided, － = Unimplemented, s = Skipped
@@ -114,8 +114,9 @@ make good       # runs lint, pretty
 * 12/19
   * Day 20: Part 2 solved by learning a lesson from previous days and investing in visualization tools early. I was quite surprised to find that my input graphs were highly isolated and this turned into another LCM of cycle lengths. Because I could imagine graphs that were far more entangled (like hash functions) and we had a similar puzzle this year, I didn't expect this approach to be applicable.
 * 12/20
-  * Day 21: Oh man. I was really excited because I had a lot of ideas for Part 2 quite early when the first people were starting to complete it but made a few logical mistakes and was too slow coding. Ended up giving up for the night. I quickly saw that each grid would enter a tick-tocking steady state alternating like a chessboard and that the input was specifically designed to be conducive to diamonds. However, I made some weird assumptions around corners and got a bit lost in the sauce. Thought this also required some input-specific observations like the last puzzle but was much more interesting.
+  * Day 21: Oh man. I was really excited because I had a lot of ideas for Part 2 quite early when the first people were starting to complete it but made one big oversight: adjacent grids would alternate parity of starting step. Ended up giving up for the night. I had seen that each grid would enter a tick-tocking steady state and that the input was specifically designed to be conducive to diamonds. Thought this also required some input-specific observations like the last puzzle but was much more interesting.
 * 12/21
   * Day 22: This was fun to implement. A brick blocks another if its x and y ranges overlap and its max z is 1 less than the other's min z. Drop all of the blocks and keep a track of what blocked it. Calculating the chain reaction is then as easy as part 1 just traversing the dependency graph.
 * 12/22
+  * Day 21: Part 2 solved by generalizing how square diamonds tile over the given square grids. After getting some graph paper and making a utility script to quickly visualize the filled graphs, it was pretty quick to derive a pattern for the shapes that emerged (day21_notes.txt). Verification of computed results for step sizes built confidence in the solution. Taking a step back, I think this is a pretty fun one.
   * Day 23: Pre-processed the maze into a graph of "branch point" nodes and distances between them. Then, just naively did an exhaustive traversal of all permutations like in part 1. Runtimes are starting to get quite slow but I can't be bothered to optimize at this point 🙃🎄.

@@ -1,0 +1,114 @@
+------------------------------------------------------------------------------------------------------------------------
+CONTEXT
+
+a grid unit is 131 steps, the width and height of the grid
+grids tick-tock back like a checkerboard
+even steps are termination are "black"; odd steps are "white"
+
+i drew out the reachable diamonds on a grid in order to figure out what repeated shapes are in the final diamond
+shapes are either "square", "corner", "house", or "chipped". images in github pr
+
+------------------------------------------------------------------------------------------------------------------------
+VERIFY A GROUND TRUTH EXAMPLE.
+(this is an odd number of "grid units". not the same as our goal answer but easiest to review by hand)
+
+python solutions/day21_walk.py inputs/21.txt --steps 196 --width 3 --start_loc="196,196"
+for 196 steps, 1.5 grid units (65 + 131)
+takes 16s
+count = 33531
+
+1.5u is...
+1 black "square" = 7457  # we had already derived this
+    python solutions/day21_walk.py inputs/21.txt --steps 196
+4 black "corners"
+    top left = 938
+        python solutions/day21_walk.py inputs/21.txt --steps 64 --start_loc="0,0"
+        # NOTE: two less steps!!!
+    top right = 959
+        python solutions/day21_walk.py inputs/21.txt --steps 64 --start_loc="0,130"
+    bottom left = 970
+        python solutions/day21_walk.py inputs/21.txt --steps 64 --start_loc="130,0"
+    bottom right = 939
+        python solutions/day21_walk.py inputs/21.txt --steps 64 --start_loc="130,130"
+    total for a set = 3806
+4 white "houses"
+    top = 5577
+        python solutions/day21_walk.py inputs/21.txt --steps 130 --start_loc="0,65" --print_grid
+        # NOTE: one less step!!!
+    right = 5565
+        python solutions/day21_walk.py inputs/21.txt --steps 130 --start_loc="65,130" --print_grid
+    bottom = 5557
+        python solutions/day21_walk.py inputs/21.txt --steps 130 --start_loc="130,65" --print_grid
+    left = 5569
+        python solutions/day21_walk.py inputs/21.txt --steps 130 --start_loc="65,0" --print_grid
+    total for a set = 22268
+
+total = 7457 + 3806 + 22268 = 33531
+CORRECT!
+
+------------------------------------------------------------------------------------------------------------------------
+GENERALIZE NUMBER OF SHAPES FOR EVEN NUMBER OF GRID UNITS (an odd # of total steps)
+
+2.5u is...
+black
+    4 "square"
+        4 * 7457 = 29828
+    8 "corner"
+        2 * set of corners
+        2 * 3806 = 7612
+white
+    1 "square"
+        1 * 7383 = 7383
+        python solutions/day21_walk.py inputs/21.txt --steps 131
+    4 "chipped"        # warn. we haven't manually verified numbers for "chipped yet. doesn't occur in 1.5u grid
+        top left = 6492
+            python solutions/day21_walk.py inputs/21.txt --steps 195 --start_loc="0,0"
+            # NOTE: one less step!!!
+        top right = 6468
+            python solutions/day21_walk.py inputs/21.txt --steps 195 --start_loc="0,130"
+        bottom left = 6460
+            python solutions/day21_walk.py inputs/21.txt --steps 195 --start_loc="130,0" --print_grid
+        bottom right = 6480
+            python solutions/day21_walk.py inputs/21.txt --steps 195 --start_loc="130,130" --print_grid
+        total for a set = 25900
+    4 "houses"
+        1 set = 22268
+
+29828 + 7612 + 7383 + 25900 + 22268 = 92991
+
+
+I think 4.5u is...
+black
+    16 "square"        4^2         n^2
+    12 "corner"        4 * 4       n * 4
+white
+    9 "square"         3^2         (n-1)^2
+    ? "chipped"        3 * 4       (n-1) * 4
+    ? "houses"         4           4
+
+------------------------------------------------------------------------------------------------------------------------
+CHECK GROUND TRUTH OF 2.5u. FIGURE OUT "CHIPPED"
+okay, let's not get ahead of ourselves... let's just play it safe and manually verify this one too.
+327 steps
+
+python solutions/day21_walk.py inputs/21.txt --steps 327 --width 5 --start_loc="327,327"
+takes 210s
+count = 92991
+
+CORRECT TO OUR CALCULATION ABOVE!
+
+------------------------------------------------------------------------------------------------------------------------
+THE FINAL ANSWER
+26501365 steps
+(26501365 - 65) / 131 = 202300. it's 202300.5 grid units
+
+
+n = 202300
+
+n^2 black squares               40925290000 * 7457
+n * 4 black corners             202300 * 3806
+(n-1)^2 white squares           40924885401 * 7383
+(n-1) * 4 white chipped         202299 * 25900
+4 white houses                  1 * 22268
+
+fin
