@@ -11,32 +11,32 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 ```
 Day 1:	＊ ＊ 	 [0.0012, 0.0076]
 Day 2:	＊ ＊ 	 [0.0005, 0.0006]
-Day 3:	＊ ＊ 	 [0.0056, 0.0031]
-Day 4:	＊ ＊ 	 [0.0011, 0.0011]
+Day 3:	＊ ＊ 	 [0.0055, 0.003]
+Day 4:	＊ ＊ 	 [0.0011, 0.0012]
 Day 5:	＊ ＊ 	 [0.0002, 0.0013]
 Day 6:	＊ ＊ 	 [0.0, 0.0]
-Day 7:	＊ ＊ 	 [0.0178, 0.0242]
+Day 7:	＊ ＊ 	 [0.0172, 0.0235]
 Day 8:	＊ ＊ 	 [0.0033, 0.0204]
-Day 9:	＊ ＊ 	 [0.0035, 0.0033]
-Day 10:	＊ ＊ 	 [0.0162, 0.162]
-Day 11:	＊ ＊ 	 [0.0098, 0.0755]
-Day 12:	＊ ＊ 	 [0.0259, 0.6571]
+Day 9:	＊ ＊ 	 [0.0033, 0.0033]
+Day 10:	＊ ＊ 	 [0.0153, 0.1566]
+Day 11:	＊ ＊ 	 [0.0097, 0.0751]
+Day 12:	＊ ＊ 	 [0.0251, 0.6625]
 Day 13:	＊ ＊ 	 [0.0015, 0.0014]
-Day 14:	＊ ＊ 	 [0.0014, 0.6438]
-Day 15:	＊ ＊ 	 [0.003, 0.0042]
-Day 16:	＊ ＊ 	 [0.012, 0.8717]
-Day 17:	＊ ＊ 	 [0.8802, 3.1965]
-Day 18:	＊ ＊ 	 [0.0596, 0.0023]
-Day 19:	＊ ＊ 	 [0.0016, 0.0057]
-Day 20:	＊ ＊ 	 [0.0257, 0.1045]
-Day 21:	＊ ＊ 	 [0.1395, 10.3563]
-Day 22:	＊ ＊ 	 [8.4445, 8.7041]
-Day 23:	＊ ＊ 	 [5.4892, 20.338]
+Day 14:	＊ ＊ 	 [0.0013, 0.6393]
+Day 15:	＊ ＊ 	 [0.0031, 0.0043]
+Day 16:	＊ ＊ 	 [0.0119, 0.8746]
+Day 17:	＊ ＊ 	 [0.8809, 3.1883]
+Day 18:	＊ ＊ 	 [0.0598, 0.0023]
+Day 19:	＊ ＊ 	 [0.0015, 0.0055]
+Day 20:	＊ ＊ 	 [0.026, 0.1039]
+Day 21:	＊ ＊ 	 [0.03, 0.6217]
+Day 22:	＊ ＊ 	 [0.0662, 0.2691]
+Day 23:	＊ ＊ 	 [0.0236, 12.7829]
 Day 24:	－ － 	 [None, None]
 Day 25:	－ － 	 [None, None]
 
 Results: 46 ＊, 0 Ｘ, 0 ?, 4 －, 0 s
-Total time (s): 60.328
+Total time (s): 20.6366
 ```
 
 ＊ = Correct, Ｘ = Incorrect, ? = No answer provided, － = Unimplemented, s = Skipped
@@ -120,3 +120,5 @@ make good       # runs lint, pretty
 * 12/22
   * Day 21: Part 2 solved by generalizing how square diamonds tile over the given square grids. After getting some graph paper and making a utility script to quickly visualize the filled graphs, it was pretty quick to derive a pattern for the shapes that emerged (day21_notes.txt). Verification of computed results for step sizes built confidence in the solution. Taking a step back, I think this is a pretty fun one.
   * Day 23: Pre-processed the maze into a graph of "branch point" nodes and distances between them. Then, just naively did an exhaustive traversal of all permutations like in part 1. Runtimes are starting to get quite slow but I can't be bothered to optimize at this point 🙃🎄.
+* 12/23
+  * ^ Can't help it. Fidgeted with perf and bring total runtime down 66%.

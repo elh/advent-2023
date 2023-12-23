@@ -30,6 +30,37 @@ def print_grid(grid, locs):
         print()
 
 
+# The following layer functions all use the optimized new_layer_locs to allow
+# for deduplication of locations to evaluate in the walk fringe. To actually get
+# the full set of locations at a layer we check that layer and all same parity
+# layers preceeding it in new_layer_locs
+def get_all_locs(
+    new_layer_locs: dict[int, set[tuple[int, int]]], layer: int
+) -> set[tuple[int, int]]:
+    locs = set()
+
+    # union all sets iterating from layer backwards by step size 2
+    for i in range(layer, -1, -2):
+        locs |= new_layer_locs[i]
+    return locs
+
+
+def count_layer_locs(
+    new_layer_locs: dict[int, set[tuple[int, int]]], layer: int
+) -> int:
+    # pprint.pprint({k: len(v) for k, v in new_layer_locs.items()})
+    return sum([len(new_layer_locs[i]) for i in range(layer, -1, -2)])
+
+
+def is_in_layer(
+    new_layer_locs: dict[int, set[tuple[int, int]]], layer: int, loc: tuple[int, int]
+) -> bool:
+    for i in range(layer, -1, -2):
+        if loc in new_layer_locs[i]:
+            return True
+    return False
+
+
 def walk(
     grid: list[list[str]],
     start_loc: tuple[int, int],
@@ -37,9 +68,10 @@ def walk(
     print_final_grid: bool = False,
     print_all_grids: bool = False,
 ) -> int:
-    final_locs: set[tuple[int, int]] = set()
     seen_states: set[State] = set()
-    layer_locs: set[tuple[int, int]] = set()
+    # from layer number to newly seen locations in that layer
+    # note: this will not include locations seen as previous layers of the same parity
+    new_layer_locs: dict[int, set[tuple[int, int]]] = {}
 
     fringe: list[State] = [(start_loc, 0)]
     cur_layer = 0
@@ -47,13 +79,13 @@ def walk(
         cur = fringe.pop(0)
         if cur[1] > cur_layer:
             if print_all_grids:
-                print_grid(grid, layer_locs)
+                print_grid(grid, get_all_locs(new_layer_locs, cur_layer))
             cur_layer += 1
-            layer_locs = set()
-        layer_locs.add(cur[0])
-        if cur[1] >= limit:
-            final_locs.add(cur[0])
+        new_layer_locs[cur_layer] = new_layer_locs.get(cur_layer, set()) | {cur[0]}
+
+        if cur[1] >= limit:  # final layer
             continue
+
         for dir in dirs:
             new = (cur[0][0] + dir[0], cur[0][1] + dir[1])
             if (
@@ -65,14 +97,20 @@ def walk(
                 continue
             if grid[new[0]][new[1]] == "#":
                 continue
+
             if (new, cur[1] + 1) in seen_states:
                 continue
             seen_states.add((new, cur[1] + 1))
+
+            if is_in_layer(new_layer_locs, cur_layer - 1, new):
+                continue
+
             fringe.append((new, cur[1] + 1))
 
     if print_final_grid:
-        print_grid(grid, final_locs)
-    return len(final_locs)
+        print_grid(grid, get_all_locs(new_layer_locs, cur_layer))
+
+    return count_layer_locs(new_layer_locs, cur_layer)
 
 
 def part1(input: str) -> int:
@@ -120,7 +158,7 @@ def part2(input: str) -> int:
         ]
     )
     even_squares = pow(n_grid_units - 1, 2) * walk(
-        grid, (center_idx, center_idx), len(grid)
+        grid, (center_idx, center_idx), len(grid) - 2
     )
     even_chipped = (n_grid_units - 1) * sum(
         [

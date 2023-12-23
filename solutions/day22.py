@@ -38,8 +38,6 @@ def is_blocked(
         if not other_highest_z + 1 == brick_lowest_z:
             # block has to be right above you
             continue
-        # TODO: perf: maybe worth sorting the bricks by z so we can break early on gaps
-        #       could do it by keeping bricks as a dict keyed by z
 
         x_overlaps = overlaps(
             brick[0][0], brick[1][0], other_brick[0][0], other_brick[1][0]
@@ -59,15 +57,32 @@ def drop(
 ) -> tuple[list[list[list[int]]], dict[tuple, set]]:
     blocking_bricks: dict[tuple, set] = {}  # brick -> bricks it depends on
 
+    # for quick lookup of possible blockers. blocker has to be 1 z-layer below
+    bricks_by_max_z: dict[int, list[list[list[int]]]] = {}
+    for brick in bricks:
+        max_z = max(brick[0][2], brick[1][2])
+        if max_z not in bricks_by_max_z:
+            bricks_by_max_z[max_z] = []
+        bricks_by_max_z[max_z].append(brick)
+
     bricks = copy.deepcopy(bricks)
     for i in range(len(bricks)):
         brick = bricks[i]
-        previous_bricks = bricks[:i]
+
         while True:
-            # drop the brick until it hits another brick or z = 0
-            if brick[0][2] == 1 or brick[1][2] == 1:
+            brick_max_z = max(brick[0][2], brick[1][2])
+            brick_min_z = min(brick[0][2], brick[1][2])
+
+            # can't drop if on floor
+            if brick_min_z == 1:
                 break
-            am_blocked, blockers = is_blocked(brick, previous_bricks)
+
+            # drop the brick until it hits another brick
+            possible_blockers = []
+            if brick_min_z - 1 in bricks_by_max_z:
+                possible_blockers = bricks_by_max_z[brick_min_z - 1]
+
+            am_blocked, blockers = is_blocked(brick, possible_blockers)
             if am_blocked:
                 h = hashed(brick)
                 if h not in blocking_bricks:
@@ -75,8 +90,14 @@ def drop(
                 for blocker in blockers:
                     blocking_bricks[h].add(hashed(blocker))
                 break
+
+            # remove brick from bricks_by_max_z layer and add it to the next layer
+            bricks_by_max_z[brick_max_z].remove(brick)
             brick[0][2] -= 1
             brick[1][2] -= 1
+            if brick_max_z - 1 not in bricks_by_max_z:
+                bricks_by_max_z[brick_max_z - 1] = []
+            bricks_by_max_z[brick_max_z - 1].append(brick)
     return bricks, blocking_bricks
 
 
