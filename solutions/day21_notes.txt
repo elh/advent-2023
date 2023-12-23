@@ -6,7 +6,7 @@ grids tick-tock back like a checkerboard
 even steps are termination are "black"; odd steps are "white"
 
 i drew out the reachable diamonds on a grid in order to figure out what repeated shapes are in the final diamond
-shapes are either "square", "corner", "house", or "chipped"
+shapes are either "square", "corner", "house", or "chipped". images in github pr
 
 ------------------------------------------------------------------------------------------------------------------------
 VERIFY A GROUND TRUTH EXAMPLE.
