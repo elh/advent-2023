@@ -1,3 +1,6 @@
+from solutions.max_dist import max_dist
+
+
 RED = "\033[91m"
 ENDC = "\033[0m"
 
@@ -112,40 +115,39 @@ def loc_edges(
     return dists
 
 
-def max_dist(
-    graph: dict[tuple[int, int], dict[tuple[int, int], int]],
-    start_loc: tuple[int, int],
-    end_loc: tuple[int, int],
-) -> int:
-    # list of (loc, prev_set, steps_taken)
-    fringe: list[tuple[tuple[int, int], set, int]] = [(start_loc, set(), 0)]
-    max_dist = -1
-    while fringe:
-        cur_loc, cur_prev_set, cur_steps_taken = fringe.pop()
-        if cur_loc == end_loc:
-            max_dist = max(cur_steps_taken, max_dist)
-            continue
+# Loc = tuple[int, int]  # (row, col)
 
-        # if exit is connected to cur_loc, you must go there else it will be blocked
-        if end_loc in graph[cur_loc]:
-            new_set = cur_prev_set.copy()
-            new_set.add(end_loc)
 
-            fringe.append((end_loc, new_set, cur_steps_taken + graph[cur_loc][end_loc]))
-            continue
+# def max_dist(graph: dict[Loc, dict[Loc, int]], start_loc: Loc, end_loc: Loc) -> int:
+#     # list of (loc, prev_set, steps_taken)
+#     fringe: list[tuple[Loc, set[Loc], int]] = [(start_loc, set(), 0)]
+#     max_dist = -1
+#     while fringe:
+#         cur_loc, cur_prev_set, cur_steps_taken = fringe.pop()
+#         if cur_loc == end_loc:
+#             max_dist = max(cur_steps_taken, max_dist)
+#             continue
 
-        for next_loc in graph[cur_loc]:
-            if next_loc in cur_prev_set:
-                continue
+#         # if exit is connected to cur_loc, you must go there else it will be blocked
+#         if end_loc in graph[cur_loc]:
+#             new_set = cur_prev_set.copy()
+#             new_set.add(end_loc)
 
-            new_set = cur_prev_set.copy()
-            new_set.add(next_loc)
+#             fringe.append((end_loc, new_set, cur_steps_taken + graph[cur_loc][end_loc]))
+#             continue
 
-            fringe.append(
-                (next_loc, new_set, cur_steps_taken + graph[cur_loc][next_loc])
-            )
+#         for next_loc in graph[cur_loc]:
+#             if next_loc in cur_prev_set:
+#                 continue
 
-    return max_dist
+#             new_set = cur_prev_set.copy()
+#             new_set.add(next_loc)
+
+#             fringe.append(
+#                 (next_loc, new_set, cur_steps_taken + graph[cur_loc][next_loc])
+#             )
+
+#     return max_dist
 
 
 def part1(input: str) -> int:
