@@ -59,9 +59,14 @@ python main.py 2 2 input.txt
 # Runs all solutions in the stype of `main.py` and checks with answers present
 # in `answers.json`. --skip is an optional csv of parts to skip. parts are
 # represented as <day>.<part>, e.g. 1.1, 25.2
-python all.py
+python all.py # also available as `make`. `SKIP=5.2 make` to skip specified parts
 
-# or just run `make`. `SKIP=5.2 make` to skip specified parts
+# Usage: plot_leaderboard.py [-h] leaderboard_file
+# Example: python plot_leaderboard.py leaderboard.json
+#
+# Given a leaderboard json, prints out out a leaderboard point series in csv
+# for your plotting convenience.
+python python plot_leaderboard.py leaderboard.json
 ```
 
 ## Development
@@ -122,3 +127,5 @@ make good       # runs lint, pretty
   * Day 23: Pre-processed the maze into a graph of "branch point" nodes and distances between them. Then, just naively did an exhaustive traversal of all permutations like in part 1. Runtimes are starting to get quite slow but I can't be bothered to optimize at this point 🙃🎄.
 * 12/23
   * ^ Can't help it. Fidgeted with perf and bring total runtime down 66%.
+* 12/24
+  * Add utility for plotting a leaderboard. Turn AoC's JSON format into a timeseries CSV.
