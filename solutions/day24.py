@@ -1,8 +1,11 @@
+import pprint
+
+
 Loc = tuple[int, ...]  # (x, y, z)
 Vel = tuple[int, ...]  # (dx, dy, dz)
 Stone = tuple[Loc, Vel]
 
-REAL_INPUT = True
+REAL_INPUT = False
 
 # Bounding box
 MIN = 200000000000000 if REAL_INPUT else 7
@@ -66,10 +69,63 @@ def part1(input: str) -> int:
     return count
 
 
-def part2(input: str) -> int:
-    raise Exception("Not implemented yet")
-    data = parse_input(input)
-    _ = data
-    # print(data)
+# idx 0 means "x", idx 1 means "y", idx 2 means "z"
+def collides_with_all(stone: Stone, stones: list[Stone], idx: int) -> bool:
+    # x = x0 + dx * t
+    (loc0, vel) = stone
+    dx = vel[idx]
+    x0 = loc0[idx]
+    for other_stone in stones:
+        print(other_stone)
+        (other_loc0, other_vel) = other_stone
+        other_dx = other_vel[idx]
+        other_x0 = other_loc0[idx]
 
-    return 0
+        # if they are moving in the same direction, they will never collide
+        if dx == other_dx:
+            return False
+
+        # solve for t
+        t = (other_x0 - x0) / (dx - other_dx)
+        print(t)
+
+        # assumption: t is an integer
+        if not t.is_integer():
+            return False
+
+        # if t is negative, they will not collide
+        if t < 0:
+            return False
+
+    return True
+
+
+def part2(input: str) -> int:
+    stones = parse_input(input)
+    # pprint.pprint(stones)
+
+    x_datas = [(stone[0][0], stone[1][0]) for stone in stones]
+    pprint.pprint(x_datas)
+
+    EXAMPLE_SOLN = ((24, 13, 10), (-3, 1, 2))
+    print(collides_with_all(EXAMPLE_SOLN, stones, 0))
+
+    # histories = []
+    # # populate histories with the x position of each stone for each time step
+    # for x_data in x_datas:
+    #     history = []
+    #     x, dx = x_data
+    #     for i in range(0, 15):
+    #         history.append(x)
+    #         x += dx
+    #     histories.append(history)
+    # pprint.pprint(histories)
+
+    # # for each stone, the time range where X is within MIN and MAX
+    # valid_time_ranges = []
+    # for x_data in x_datas:
+    #     x, dx = x_data
+    #     r = [max((MIN - x) // dx, 0), max((MAX - x) // dx, 0)]
+    #     r.sort()
+    #     valid_time_ranges.append(r)
+    # pprint.pprint(valid_time_ranges)
