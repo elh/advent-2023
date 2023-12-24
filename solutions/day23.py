@@ -123,6 +123,8 @@ def max_dist(
     while fringe:
         cur_loc, cur_prev_set, cur_steps_taken = fringe.pop()
         if cur_loc == end_loc:
+            # if cur_steps_taken > max_dist:
+            #     print("new max dist:", cur_steps_taken)
             max_dist = max(cur_steps_taken, max_dist)
             continue
 
