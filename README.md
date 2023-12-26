@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/46-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/48-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,34 +9,34 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	＊ ＊ 	 [0.0011, 0.0072]
-Day 2:	＊ ＊ 	 [0.0004, 0.0005]
-Day 3:	＊ ＊ 	 [0.0049, 0.0025]
-Day 4:	＊ ＊ 	 [0.0009, 0.001]
-Day 5:	＊ ＊ 	 [0.0002, 0.0011]
+Day 1:	＊ ＊ 	 [0.0009, 0.0058]
+Day 2:	＊ ＊ 	 [0.0004, 0.0006]
+Day 3:	＊ ＊ 	 [0.0042, 0.0023]
+Day 4:	＊ ＊ 	 [0.0008, 0.0008]
+Day 5:	＊ ＊ 	 [0.0001, 0.0009]
 Day 6:	＊ ＊ 	 [0.0, 0.0]
-Day 7:	＊ ＊ 	 [0.0135, 0.0172]
-Day 8:	＊ ＊ 	 [0.0024, 0.0142]
+Day 7:	＊ ＊ 	 [0.0127, 0.0166]
+Day 8:	＊ ＊ 	 [0.0023, 0.0145]
 Day 9:	＊ ＊ 	 [0.0024, 0.0023]
-Day 10:	＊ ＊ 	 [0.0105, 0.1087]
-Day 11:	＊ ＊ 	 [0.0066, 0.0516]
-Day 12:	＊ ＊ 	 [0.0171, 0.4218]
-Day 13:	＊ ＊ 	 [0.001, 0.001]
-Day 14:	＊ ＊ 	 [0.0009, 0.4406]
-Day 15:	＊ ＊ 	 [0.0019, 0.0028]
-Day 16:	＊ ＊ 	 [0.0081, 0.5986]
-Day 17:	＊ ＊ 	 [0.6013, 2.3221]
-Day 18:	＊ ＊ 	 [0.0399, 0.0015]
-Day 19:	＊ ＊ 	 [0.001, 0.0038]
-Day 20:	＊ ＊ 	 [0.018, 0.0714]
-Day 21:	＊ ＊ 	 [0.0208, 0.4301]
-Day 22:	＊ ＊ 	 [0.0454, 0.1833]
-Day 23:	＊ ＊ 	 [0.016, 8.7534]
-Day 24:	－ － 	 [None, None]
-Day 25:	－ － 	 [None, None]
+Day 10:	＊ ＊ 	 [0.0111, 0.1109]
+Day 11:	＊ ＊ 	 [0.0066, 0.0524]
+Day 12:	＊ ＊ 	 [0.0184, 0.4781]
+Day 13:	＊ ＊ 	 [0.0011, 0.001]
+Day 14:	＊ ＊ 	 [0.0009, 0.4498]
+Day 15:	＊ ＊ 	 [0.002, 0.003]
+Day 16:	＊ ＊ 	 [0.0081, 0.6357]
+Day 17:	＊ ＊ 	 [0.6015, 2.312]
+Day 18:	＊ ＊ 	 [0.0396, 0.0015]
+Day 19:	＊ ＊ 	 [0.001, 0.0039]
+Day 20:	＊ ＊ 	 [0.018, 0.0712]
+Day 21:	＊ ＊ 	 [0.0207, 0.4426]
+Day 22:	＊ ＊ 	 [0.0452, 0.1848]
+Day 23:	＊ ＊ 	 [0.0164, 8.9718]
+Day 24:	＊ Ｘ 	 [0.013, 0.0]
+Day 25:	＊ Ｘ 	 [0.0017, 0.0]
 
-Results: 46 ＊, 0 Ｘ, 0 ?, 4 －, 0 s
-Total time (s): 14.251
+Results: 48 ＊, 2 Ｘ, 0 ?, 0 －, 0 s
+Total time (s): 14.5916
 ```
 
 ＊ = Correct, Ｘ = Incorrect, ? = No answer provided, － = Unimplemented, s = Skipped
@@ -127,5 +127,7 @@ make good       # runs lint, pretty
   * Day 23: Pre-processed the maze into a graph of "branch point" nodes and distances between them. Then, just naively did an exhaustive traversal of all permutations like in part 1. Runtimes are starting to get quite slow but I can't be bothered to optimize at this point 🙃🎄.
 * 12/23
   * ^ Can't help it. Fidgeted with perf and bring total runtime down 66%.
-* 12/24
+  * Day 24: Part 1 solved with simple linear equations and the gotcha for handling that t must be positive. For part 2 I decline to use solvers which were interesting to me for optimzation problems in 2022 AoC because this seems to not just be a huge search or optimization problem. I study the example drawing space-time diagrams for each dimention over t. I realize that dimensions could be handled independently and come up with a search that identifies the collider line using t1 and t2 that collisions happen and some logic about slopes to early terminate but fail to consider how large the time ranges are... Oh well, Part 2 stumps me before Christmas which means prime rib and hot pot 🥩.
+* 12/25
   * Add utility for plotting a leaderboard. Turn AoC's JSON format into a timeseries CSV.
+  * Day 25: Solved manually with graphviz.

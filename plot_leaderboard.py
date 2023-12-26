@@ -1,6 +1,5 @@
 import argparse
 import json
-import pprint
 import sys
 import csv
 from datetime import datetime, timezone
