@@ -1,3 +1,5 @@
+from sympy import symbols, Eq, solve
+
 Loc = tuple[int, ...]  # (x, y, z)
 Vel = tuple[int, ...]  # (dx, dy, dz)
 Stone = tuple[Loc, Vel]
@@ -67,9 +69,22 @@ def part1(input: str) -> int:
 
 
 def part2(input: str) -> int:
-    raise Exception("Not implemented yet")
-    data = parse_input(input)
-    _ = data
-    # print(data)
+    stones = parse_input(input)
 
-    return 0
+    ts = symbols("t_1 t_2 t_3")
+    v_x, v_y, v_z = symbols("v_x v_y v_z")
+    x_0, y_0, z_0 = symbols("x_0 y_0 z_0")
+
+    eqs = []
+    for i in range(3):
+        (s_x0, s_y0, s_z0), (s_vel_x, s_vel_y, s_vel_z) = stones[i]
+        eqs.append(Eq(v_x * ts[i] + x_0, s_vel_x * ts[i] + s_x0))
+        eqs.append(Eq(v_y * ts[i] + y_0, s_vel_y * ts[i] + s_y0))
+        eqs.append(Eq(v_z * ts[i] + z_0, s_vel_z * ts[i] + s_z0))
+
+    solns = solve(eqs, domain="ZZ", dict=True)
+    if len(solns) != 1:
+        raise Exception("Expected 1 solution")
+
+    soln = solns[0]
+    return soln[x_0] + soln[y_0] + soln[z_0]

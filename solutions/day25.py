@@ -59,9 +59,4 @@ def part1(input: str) -> int:
 
 
 def part2(input: str) -> int:
-    raise Exception("Not implemented yet")
-    data = parse_input(input)
-    _ = data
-    # print(data)
-
     return 0

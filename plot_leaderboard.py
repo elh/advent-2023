@@ -47,10 +47,12 @@ def main():
     # pprint.pprint(completion_dict)
 
     # list of (username, timestamp, points)
+    # iterate in completion_dict order to assign points correctly, then sort by time overall
     all_completions = []
     for day_part_completions in completion_dict.values():
         for i, completion in enumerate(day_part_completions):
             all_completions.append((completion[1], completion[0], member_count - i))
+    all_completions.sort(key=lambda x: x[0])
 
     # pprint.pprint(all_completions)
 

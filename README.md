@@ -1,6 +1,6 @@
 # advent-2023 🎄
 
-![AoC Stars](https://img.shields.io/badge/48-%F0%9F%8C%9F-yellow)
+![AoC Stars](https://img.shields.io/badge/50-%F0%9F%8C%9F-yellow)
 
 Refamiliarizing myself with Python. I completed [last year's in Clojure](https://github.com/elh/advent-2022).<br>
 Inputs and answers are not checked in but can be provided in `inputs/` and `answers.json` respectively.
@@ -9,34 +9,34 @@ Inputs and answers are not checked in but can be provided in `inputs/` and `answ
 
 `make` result:
 ```
-Day 1:	＊ ＊ 	 [0.0009, 0.0058]
+Day 1:	＊ ＊ 	 [0.0009, 0.0054]
 Day 2:	＊ ＊ 	 [0.0004, 0.0006]
-Day 3:	＊ ＊ 	 [0.0042, 0.0023]
+Day 3:	＊ ＊ 	 [0.004, 0.0025]
 Day 4:	＊ ＊ 	 [0.0008, 0.0008]
 Day 5:	＊ ＊ 	 [0.0001, 0.0009]
 Day 6:	＊ ＊ 	 [0.0, 0.0]
-Day 7:	＊ ＊ 	 [0.0127, 0.0166]
-Day 8:	＊ ＊ 	 [0.0023, 0.0145]
+Day 7:	＊ ＊ 	 [0.0129, 0.0176]
+Day 8:	＊ ＊ 	 [0.0026, 0.0143]
 Day 9:	＊ ＊ 	 [0.0024, 0.0023]
-Day 10:	＊ ＊ 	 [0.0111, 0.1109]
-Day 11:	＊ ＊ 	 [0.0066, 0.0524]
-Day 12:	＊ ＊ 	 [0.0184, 0.4781]
-Day 13:	＊ ＊ 	 [0.0011, 0.001]
-Day 14:	＊ ＊ 	 [0.0009, 0.4498]
-Day 15:	＊ ＊ 	 [0.002, 0.003]
-Day 16:	＊ ＊ 	 [0.0081, 0.6357]
-Day 17:	＊ ＊ 	 [0.6015, 2.312]
-Day 18:	＊ ＊ 	 [0.0396, 0.0015]
+Day 10:	＊ ＊ 	 [0.0109, 0.1142]
+Day 11:	＊ ＊ 	 [0.0069, 0.0534]
+Day 12:	＊ ＊ 	 [0.0179, 0.4488]
+Day 13:	＊ ＊ 	 [0.001, 0.001]
+Day 14:	＊ ＊ 	 [0.0009, 0.4457]
+Day 15:	＊ ＊ 	 [0.0021, 0.0029]
+Day 16:	＊ ＊ 	 [0.0083, 0.6009]
+Day 17:	＊ ＊ 	 [0.6009, 2.2791]
+Day 18:	＊ ＊ 	 [0.0417, 0.0015]
 Day 19:	＊ ＊ 	 [0.001, 0.0039]
-Day 20:	＊ ＊ 	 [0.018, 0.0712]
-Day 21:	＊ ＊ 	 [0.0207, 0.4426]
-Day 22:	＊ ＊ 	 [0.0452, 0.1848]
-Day 23:	＊ ＊ 	 [0.0164, 8.9718]
-Day 24:	＊ Ｘ 	 [0.013, 0.0]
-Day 25:	＊ Ｘ 	 [0.0017, 0.0]
+Day 20:	＊ ＊ 	 [0.0183, 0.0717]
+Day 21:	＊ ＊ 	 [0.0205, 0.4319]
+Day 22:	＊ ＊ 	 [0.0455, 0.185]
+Day 23:	＊ ＊ 	 [0.0163, 8.9421]
+Day 24:	＊ ＊ 	 [0.013, 0.1365]
+Day 25:	＊ ＊ 	 [0.0018, 0.0]
 
-Results: 48 ＊, 2 Ｘ, 0 ?, 0 －, 0 s
-Total time (s): 14.5916
+Results: 50 ＊, 0 Ｘ, 0 ?, 0 －, 0 s
+Total time (s): 14.594
 ```
 
 ＊ = Correct, Ｘ = Incorrect, ? = No answer provided, － = Unimplemented, s = Skipped
@@ -131,3 +131,6 @@ make good       # runs lint, pretty
 * 12/25
   * Add utility for plotting a leaderboard. Turn AoC's JSON format into a timeseries CSV.
   * Day 25: Solved manually with graphviz.
+* 12/26
+  * Day 24: Solved with SymPy. Modelling as a system of equations really seemed like the only practical way of doing this when considering how large these values were.
+  * Finished with Advent of Code just in time to vegetate coming down with a sickness 😬. Finished 1st in points overall but 2nd to time to completion to ilya-aby and an impressive 412th overall ⭐️.
